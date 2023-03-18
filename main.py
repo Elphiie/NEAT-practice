@@ -84,11 +84,11 @@ class GoL:
             output = net.activate(
                 (
                 life.x,
-                abs(life.x - food.x),
+                life.x - food.x,
                 food.x,
                 near_wall,
                 food.y, 
-                abs(life.y - food.y), 
+                life.y - food.y, 
                 life.y,              
                 )
             )
@@ -174,7 +174,7 @@ def run_neat(config):
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(1))
-    winner = p.run(eval_genomes, 25)
+    winner = p.run(eval_genomes, 150)
     with open("best.pickle", "wb") as f:
         pickle.dump(winner, f)
     
