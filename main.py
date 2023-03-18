@@ -64,7 +64,9 @@ class GoL:
         window_height = self.game.window_height
         window_width = self.game.window_width
         food = self.food
+
         for (genome, net, life, cum) in players:
+            dist_food = math.dist((life.x, life.y), (self.food.x, self.food.y))
             near_wall = False
 
             # checks if our squares is close to the window border            
@@ -121,7 +123,7 @@ class GoL:
                 genome.fitness -= 1
 
             if dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
-                genome.fitness += 1
+                genome.fitness += 2
             elif dist_food <= life.WIDTH + (self.food.RADIUS * 2):
                 genome.fitness += 0.1
             elif dist_food <= life.WIDTH + (self.food.RADIUS * 2.25):

@@ -80,7 +80,7 @@ class Game:
             d = math.dist((life.x, life.y), (self.food.x, self.food.y))
 
             
-            if d <= Life.WIDTH + (self.food.RADIUS * 1.2):
+            if d <= Life.WIDTH + (self.food.RADIUS * 1.3):
                 self.score_1 += 1
                 life.NRG += 2200
                 self.food.reset()
@@ -91,7 +91,7 @@ class Game:
             d = math.dist((life.x, life.y), (self.food.x, self.food.y))
 
             
-            if d <= Life.WIDTH + (self.food.RADIUS * 1.2):
+            if d <= Life.WIDTH + (self.food.RADIUS * 1.3):
                 self.score_2 += 1
                 life.NRG += 2200
                 self.food.reset()
