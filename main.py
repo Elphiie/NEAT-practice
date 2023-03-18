@@ -65,12 +65,28 @@ class GoL:
         window_width = self.game.window_width
         food = self.food
         for (genome, net, life, cum) in players:
+            near_wall = False
+
+            # checks if our squares is close to the window border            
+            if window_height + life.y <= window_height + 10:
+                near_wall = True
+                
+            elif life.y + life.HEIGHT + 10 >= window_height:
+                near_wall = True
+
+            elif window_width + life.x <= window_width + 10:
+                near_wall = True 
+
+            elif life.x + life.WIDTH + 10 >= window_width:
+                near_wall = True
+
 
             output = net.activate(
                 (
                 life.x,
                 abs(life.x - food.x),
                 food.x,
+                near_wall,
                 food.y, 
                 abs(life.y - food.y), 
                 life.y,              
@@ -119,9 +135,10 @@ def eval_genomes(genomes, config):
     pygame.display.set_caption("Ai-test")
     stats = neat.StatisticsReporter()
     node_names = {                
-                -6: 'life pos x',
-                -5: 'abs x',
-                -4: 'food x',
+                -7: 'life pos x',
+                -6: 'abs x',
+                -5: 'food x',
+                -4: 'near wall?',
                 -3: 'food y',                
                 -2: 'abs y',
                 -1: 'life pos x',
