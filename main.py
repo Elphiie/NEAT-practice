@@ -14,6 +14,7 @@ class GoL:
         self.game = Game(window, width, height)
         self.life_1 = self.game.life_1
         self.life_2 = self.game.life_2
+        self.enemy = self.game.enemy
         self.score_1 = self.game.score_1
         self.score_2 = self.game.score_2
         self.food = self.game.food
@@ -86,7 +87,11 @@ class GoL:
                 life.x,
                 abs(life.x - food.x),
                 food.x,
+                abs(life.x - self.enemy.x),
+                self.enemy.x,
                 near_wall,
+                self.enemy.y,
+                abs(life.y - self.enemy.y),
                 food.y, 
                 abs(life.y - food.y), 
                 life.y,              
@@ -135,10 +140,14 @@ def eval_genomes(genomes, config):
     pygame.display.set_caption("Ai-test")
     stats = neat.StatisticsReporter()
     node_names = {                
-                -7: 'life pos x',
-                -6: 'abs x',
-                -5: 'food x',
-                -4: 'near wall?',
+                -11: 'life pos x',
+                -10: 'abs food x',
+                -9: 'food x',
+                -8: 'abs enemy x',
+                -7: 'enemy x',
+                -6: 'near wall?',
+                -5: 'enemy y',
+                -4: 'abs enemy x',
                 -3: 'food y',                
                 -2: 'abs y',
                 -1: 'life pos x',
@@ -159,9 +168,9 @@ def eval_genomes(genomes, config):
             force_quit = gol.train_ai(genome1, genome2, config, duration=time.time()-start_time, draw=True)
             if force_quit:
                 #saves an svg file vizualising the network for current genomes playing at the time of closing
-                visualize.draw_net(config, genome1, True, '1', node_names=node_names)
+                # visualize.draw_net(config, genome1, True, '1', node_names=node_names)
 
-                visualize.draw_net(config, genome2, True, '2', node_names=node_names)
+                # visualize.draw_net(config, genome2, True, '2', node_names=node_names)
 
                 quit()
 
@@ -183,10 +192,14 @@ def run_neat(config):
 
 
     node_names = {                
-                -7: 'life pos x',
-                -6: 'abs x',
-                -5: 'food x',
-                -4: 'near wall?',
+                -11: 'life pos x',
+                -10: 'abs food x',
+                -9: 'food x',
+                -8: 'abs enemy x',
+                -7: 'enemy x',
+                -6: 'near wall?',
+                -5: 'enemy y',
+                -4: 'abs enemy x',
                 -3: 'food y',                
                 -2: 'abs y',
                 -1: 'life pos x',

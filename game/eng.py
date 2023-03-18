@@ -39,8 +39,10 @@ class Game:
             self.BLUE, self.window_width - 10 - Life.WIDTH, self.window_height // 2 - Life.HEIGHT//2, Life.NRG)
         self.life_2 = Life(
             self.GREEN, self.window_width - 10 - Life.WIDTH, self.window_height // 2 - Life.HEIGHT//2, Life.NRG)
+        self.enemy = Life(
+            self.RED, self.window_width - 10 - Life.WIDTH, self.window_height // 2 - Life.HEIGHT//2, Life.NRG)
         
-        self.food = Food(self.window_width // 2, self.window_height // 2)
+        self.food = Food(self.YELLOW, self.window_width // 2, self.window_height // 2)
         
         self.score_1 = 0
         self.score_2 = 0
@@ -77,25 +79,31 @@ class Game:
     def _handle_collision(self):
           
         for life in [self.life_1]:
-            d = math.dist((life.x, life.y), (self.food.x, self.food.y))
-
+            df = math.dist((life.x, life.y), (self.food.x, self.food.y))
+            de = math.dist((life.x, life.y), (self.enemy.x, self.enemy.y))
             
-            if d <= Life.WIDTH + (self.food.RADIUS * 1.2):
+            if df <= Life.WIDTH + (self.food.RADIUS * 1.2):
                 self.score_1 += 1
                 life.NRG += 2200
                 self.food.reset()
 
+            if de <= Life.WIDTH * 2:
+                self.score_1 -= 10
+                self.life_1.reset()
 
-
-        for life in [self.life_2]:
-            d = math.dist((life.x, life.y), (self.food.x, self.food.y))
+        for life2 in [self.life_2]:
+            df = math.dist((life2.x, life2.y), (self.food.x, self.food.y))
+            de = math.dist((life2.x, life2.y), (self.enemy.x, self.enemy.y))
 
             
-            if d <= Life.WIDTH + (self.food.RADIUS * 1.2):
+            if df <= Life.WIDTH + (self.food.RADIUS * 1.2):
                 self.score_2 += 1
-                life.NRG += 2200
+                life2.NRG += 2200
                 self.food.reset()
             
+            if de <= Life.WIDTH * 2:
+                self.score_2 -= 10
+                self.life_2.reset()
 
     def draw(self, draw_score=True):
         self.window.fill(self.BLACK)
@@ -104,12 +112,16 @@ class Game:
 
         self.life_1.draw(self.window)
         self.life_2.draw(self.window)
+        self.enemy.draw(self.window)
         self.food.draw(self.window)
         
 
 
     def move_life(self, left=True, up=True, right=True, down=True, cum=True):
-        # dist_life = math.dist((self.life_1.x, self.life_1.y), (self.life_2.x, self.life_2.y))
+        life_1 = self.life_1
+        life_2 = self.life_2
+        enemy = self.enemy
+        enemy.VEL = 2
         if cum:
             if up:
                 if up and self.life_1.y - Life.HEIGHT <= Life.HEIGHT:
@@ -176,8 +188,40 @@ class Game:
                 self.score_2 -= 1
                 return False    
 
-        
+        dist1 = math.dist((life_1.x, life_1.y), (enemy.x, enemy.y))
+        dist2 = math.dist((life_2.x, life_2.y), (enemy.x, enemy.y))
 
+        rel_x1 = life_1.x - enemy.x
+        rel_y1 = life_1.y - enemy.y
+
+        rel_x2 = life_2.x - enemy.x
+        rel_y2 = life_2.y - enemy.y
+
+        if dist1 < dist2:
+            if rel_x1 < 0:
+                enemy.move_left(left=True)
+
+            if rel_x1 > 0:
+                enemy.move_right(right=True)
+
+            if rel_y1 < 0:
+                enemy.move_up(up=True)
+
+            if rel_y1 > 0:
+                enemy.move_down(down=True)
+
+        elif dist2 < dist1:
+            if rel_x2 < 0:
+                enemy.move_left(left=True)
+
+            if rel_x2 > 0:
+                enemy.move_right(right=True)
+
+            if rel_y2 < 0:
+                enemy.move_up(up=True)
+
+            if rel_y2 > 0:
+                enemy.move_down(down=True)                
 
         return True
 

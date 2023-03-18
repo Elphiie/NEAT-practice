@@ -4,13 +4,14 @@ from random import randint
 class Food:
     RADIUS = 60
 
-    def __init__(self, x, y):
+    def __init__(self, color, x, y):
+        self.color = color
         self.x = randint(100, 1180)
         self.y = randint(100, 620)
 
     def draw(self, win):
         pygame.draw.circle(
-            win, (255, 50, 50), (self.x, self.y), self.RADIUS)
+            win, self.color, (self.x, self.y), self.RADIUS)
 
     def reset(self):
         self.x = randint(25, 1255)
