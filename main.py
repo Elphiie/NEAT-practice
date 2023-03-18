@@ -181,12 +181,12 @@ def run_neat(config):
     with open("best.pickle", "rb") as f:
         winner = pickle.load(f)
 
-        
 
     node_names = {                
-                -6: 'life pos x',
-                -5: 'abs x',
-                -4: 'food x',
+                -7: 'life pos x',
+                -6: 'abs x',
+                -5: 'food x',
+                -4: 'near wall?',
                 -3: 'food y',                
                 -2: 'abs y',
                 -1: 'life pos x',
