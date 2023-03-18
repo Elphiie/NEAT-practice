@@ -63,63 +63,20 @@ class GoL:
         players = [(self.genome1, net1, self.life_1, True), (self.genome2, net2, self.life_2, False)]
         window_height = self.game.window_height
         window_width = self.game.window_width
+        food = self.food
         for (genome, net, life, cum) in players:
-            dist_food = math.dist((life.x, life.y), (self.food.x, self.food.y))
-            near_wall_left = False
-            near_wall_right = False
-            near_wall_up = False
-            near_wall_down = False
-
-            food_left = False
-            food_right = False
-            food_up = False
-            food_down = False
-
-            # checks if our squares is close to the window border            
-            if window_height + life.y <= window_height + 10:
-                near_wall_up = True
-                
-            elif life.y + life.HEIGHT + 10 >= window_height:
-                near_wall_down = True
-
-            elif window_width + life.x <= window_width + 10:
-                near_wall_left = True 
-
-            elif life.x + life.WIDTH + 10 >= window_width:
-                near_wall_right = True
-
-            # checks if the circle is to the left of the square
-            if life.x - self.food.x <= 10:
-                food_right = True
-            
-            # checks if the circle is to the right of the square
-            elif life.x - self.food.x >= 10:
-                food_left = True
-
-
-            # checks if the circle is to the down from the square
-            if life.y - self.food.y <= 10:
-                food_down = True
-            
-            # checks if the circle is to the up from the square
-            elif life.y - self.food.y >= 10:
-                food_up = True
- 
 
             output = net.activate(
                 (
-                food_left,
-                near_wall_left,         
                 life.x,
-                near_wall_right,
-                food_right,
-                near_wall_down,
-                food_down,
-                near_wall_up,                
-                life.y,
-                food_up
-                    )
+                abs(life.x - food.x),
+                food.x,
+                food.y, 
+                abs(life.y - food.y), 
+                life.y,              
                 )
+            )
+
             decision = output.index(max(output))
 
             valid = True
@@ -147,14 +104,6 @@ class GoL:
             if life.NRG <= 0: # If the square moves too much punish the
                 genome.fitness -= 1
 
-            if dist_food <= life.WIDTH + (self.food.RADIUS * 1.2):
-                genome.fitness += 1
-            elif dist_food <= life.WIDTH + (self.food.RADIUS * 2):
-                genome.fitness += 0.1
-            elif dist_food <= life.WIDTH + (self.food.RADIUS * 2.25):
-                genome.fitness += 0.01
-                        
-                              
 
     def calculate_fitness(self, game_info, duration):
         self.genome1.fitness += game_info.score_1 + duration
