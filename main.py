@@ -82,6 +82,9 @@ class GoL:
             elif life.x + life.WIDTH + 10 >= window_width:
                 near_wall = True
 
+            else:
+                near_wall = False
+
 
             output = net.activate(
                 (
@@ -115,19 +118,21 @@ class GoL:
             elif decision == 4:  # Move right
                 valid = self.game.move_life(up=False, down=False, right=True, left=False, cum=cum)
                 life.NRG -= 2
-
             if not valid:  # If the movement makes the square go off the screen punish the AI
                 genome.fitness -= 1
+
 
             if life.NRG <= 0: # If the square moves too much punish the
                 genome.fitness -= 1
 
-            if dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
-                genome.fitness += 2
+            if dist_food <= life.WIDTH + (self.food.RADIUS * 2.25):
+                genome.fitness += 0.01              
             elif dist_food <= life.WIDTH + (self.food.RADIUS * 2):
-                genome.fitness += 0.1
-            elif dist_food <= life.WIDTH + (self.food.RADIUS * 2.25):
-                genome.fitness += 0.01
+                genome.fitness += 0.1           
+            elif dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
+                genome.fitness += 2
+
+
 
     def calculate_fitness(self, game_info, duration):
         self.genome1.fitness += game_info.score_1 + duration
@@ -137,11 +142,15 @@ class GoL:
 
 
 def eval_genomes(genomes, config):
+    d = neat.Population(config)
+    best = d.best_genome  
     start_time = time.time()
     width, height = 1280, 720
     win = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Ai-test")
     stats = neat.StatisticsReporter()
+
+
     node_names = {                
                 -7: 'life pos x',
                 -6: 'abs x',
@@ -149,7 +158,7 @@ def eval_genomes(genomes, config):
                 -4: 'near wall?',
                 -3: 'food y',                
                 -2: 'abs y',
-                -1: 'life pos x',
+                -1: 'life pos y',
                 0: 'stop',
                 1: 'up',
                 2: 'down',
@@ -166,11 +175,16 @@ def eval_genomes(genomes, config):
 
             force_quit = gol.train_ai(genome1, genome2, config, duration=time.time()-start_time, draw=True)
             if force_quit:
+                with open("best_genome.pickle", "wb") as f:
+                    pickle.dump(best, f)
+                
+                with open("best_genome.pickle", "rb") as f:
+                    best = pickle.load(f)
                 #saves an svg file vizualising the network for current genomes playing at the time of closing
                 visualize.draw_net(config, genome1, True, '1', node_names=node_names)
 
                 visualize.draw_net(config, genome2, True, '2', node_names=node_names)
-
+               
                 quit()
 
 
@@ -182,7 +196,7 @@ def run_neat(config):
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(1))
-    winner = p.run(eval_genomes, 150)
+    winner = p.run(eval_genomes, 50)
     with open("best.pickle", "wb") as f:
         pickle.dump(winner, f)
     
@@ -197,7 +211,7 @@ def run_neat(config):
                 -4: 'near wall?',
                 -3: 'food y',                
                 -2: 'abs y',
-                -1: 'life pos x',
+                -1: 'life pos y',
                 0: 'stop',
                 1: 'up',
                 2: 'down',
@@ -205,8 +219,6 @@ def run_neat(config):
                 4: 'right'
                 }
     
-    '''when current run is complete, saves an svg file containing a visual model for the net with highest fitness 
-    and fitness statistics graph'''
     visualize.draw_net(config, winner, True, node_names=node_names)
 
     visualize.plot_stats(stats, ylog=False, view=True)
