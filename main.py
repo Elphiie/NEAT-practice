@@ -325,5 +325,5 @@ if __name__ == '__main__':
 
 
 
-    # run_neat(config)
-    test_winner(config)
+    run_neat(config)
+    # test_winner(config)
