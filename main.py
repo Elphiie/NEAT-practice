@@ -141,11 +141,11 @@ class GoL:
             if game_info.score_1 >= 10 or game_info.score_2 >= 10 or game_info.score_1 <= -10 or game_info.score_2 <= -10:
 
                 if self.score_1 > self.score_2:
-                    genome1.fitness -= 2
-                    genome2.fitness += 2
+                    genome1.fitness -= 1
+                    genome2.fitness += 1
                 elif self.score_2 > self.score_1:
-                    genome2.fitness -= 2
-                    genome1.fitness += 2    
+                    genome2.fitness -= 1
+                    genome1.fitness += 1    
 
                 self.calculate_fitness(game_info, duration)
                 break
@@ -183,9 +183,7 @@ class GoL:
                 (
                 life.x,
                 life.x - food.x,
-                food.x,
                 near_wall,
-                food.y, 
                 life.y - food.y, 
                 life.y,              
                 )
@@ -223,7 +221,7 @@ class GoL:
             elif dist_food <= life.WIDTH + (self.food.RADIUS * 2):
                 genome.fitness += 0.1           
             elif dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
-                genome.fitness += 2
+                genome.fitness += 3
 
 
 
@@ -241,11 +239,9 @@ def eval_genomes(genomes, config):
     pygame.display.set_caption("Ai-test")
 
     node_names = {                
-                -7: 'life pos x',
-                -6: 'abs x',
-                -5: 'food x',
-                -4: 'near wall?',
-                -3: 'food y',                
+                -5: 'life pos x',
+                -4: 'abs x',
+                -3: 'near wall?',                               
                 -2: 'abs y',
                 -1: 'life pos y',
                 0: 'stop',
@@ -274,13 +270,13 @@ def eval_genomes(genomes, config):
 
 
 def run_neat(config):
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-9')
-    p = neat.Population(config)
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-9')
+    # p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(1))
-    winner = p.run(eval_genomes, 1)
+    winner = p.run(eval_genomes, 50)
     with open("best.pickle", "wb") as f:
         pickle.dump(winner, f)
     
@@ -289,11 +285,9 @@ def run_neat(config):
 
 
     node_names = {                
-                -7: 'life pos x',
-                -6: 'abs x',
-                -5: 'food x',
-                -4: 'near wall?',
-                -3: 'food y',                
+                -5: 'life pos x',
+                -4: 'abs x',
+                -3: 'near wall?',                               
                 -2: 'abs y',
                 -1: 'life pos y',
                 0: 'stop',
