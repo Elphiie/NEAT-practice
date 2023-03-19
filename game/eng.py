@@ -181,7 +181,7 @@ class Game:
 
         return True
 
-    def loop(self, duration):
+    def loop(self):
         self.move_life()
         self._handle_collision()
 

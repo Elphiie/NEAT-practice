@@ -20,6 +20,91 @@ class GoL:
 
 
 
+    def best_net(self, net, config, draw=False):
+        clock = pygame.time.Clock()
+        start_time = time.time()
+        run = True
+
+        life = self.life_1
+    
+        food = self.food
+        window_height = self.game.window_height
+        window_width = self.game.window_height
+
+        while run:
+            pygame.display.update()
+            clock.tick(60)
+            duration = time.time() - start_time
+            self.game.dur = round(duration, 2)
+            
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+                    break
+
+            if draw:
+                self.game.draw(draw_score=True)         
+
+            
+            near_wall = False
+
+            # checks if our squares is close to the window border            
+            if window_height + life.y <= window_height + 10:
+                near_wall = True
+                
+            elif life.y + life.HEIGHT + 10 >= window_height:
+                near_wall = True
+
+            elif window_width + life.x <= window_width + 10:
+                near_wall = True 
+
+            elif life.x + life.WIDTH + 10 >= window_width:
+                near_wall = True
+
+            else:
+                near_wall = False
+
+
+            output = net.activate(
+                (
+                life.x,
+                life.x - food.x,
+                food.x,
+                near_wall,
+                food.y, 
+                life.y - food.y, 
+                life.y,              
+                )
+            )
+
+            decision = output.index(max(output))
+
+            valid = True
+            if decision == 0:  # Don't move
+                valid = self.game.move_life(False, False, False, False, cum=True)
+                life.NRG -= 2
+                # we want to discourage this
+            elif decision == 1:  # Move up
+                valid = self.game.move_life(down=False, up=True, right=False, left=False, cum=True)
+                life.NRG -= 3
+            elif decision == 2:  # Move down
+                valid = self.game.move_life(up=False, right=False, left=False, down=True, cum=True)
+                life.NRG -= 3
+            elif decision == 3:  # Move left
+                valid = self.game.move_life(left=True, up=False, down=False, right=False, cum=True)
+                life.NRG -= 3
+            elif decision == 4:  # Move right
+                valid = self.game.move_life(up=False, down=False, right=True, left=False, cum=True)
+                life.NRG -= 3
+            if not valid:
+                self.game.move_life(False, False, False, False, cum=True) 
+
+            self.game.loop()
+
+        return False
+
+
     def train_ai(self, genome1, genome2, config, duration, draw=False):
         run = True
         start_time = time.time()
@@ -40,7 +125,7 @@ class GoL:
             self.game.raw_dur = round(raw_time/1000, 2)
             self.game.dur = round(duration, 2)
 
-            game_info = self.game.loop(duration)
+            game_info = self.game.loop()
 
             self.move_ai(net1, net2)
 
@@ -150,14 +235,10 @@ class GoL:
 
 
 def eval_genomes(genomes, config):
-    d = neat.Population(config)
-    best = d.best_genome  
     start_time = time.time()
     width, height = 1280, 720
     win = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Ai-test")
-    stats = neat.StatisticsReporter()
-
 
     node_names = {                
                 -7: 'life pos x',
@@ -183,11 +264,6 @@ def eval_genomes(genomes, config):
 
             force_quit = gol.train_ai(genome1, genome2, config, duration=time.time()-start_time, draw=True)
             if force_quit:
-                with open("best_genome.pickle", "wb") as f:
-                    pickle.dump(best, f)
-                
-                with open("best_genome.pickle", "rb") as f:
-                    best = pickle.load(f)
                 #saves an svg file vizualising the network for current genomes playing at the time of closing
                 visualize.draw_net(config, genome1, True, '1', node_names=node_names)
 
@@ -198,13 +274,13 @@ def eval_genomes(genomes, config):
 
 
 def run_neat(config):
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-9')
-    # p = neat.Population(config)
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-9')
+    p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(1))
-    winner = p.run(eval_genomes, 50)
+    winner = p.run(eval_genomes, 1)
     with open("best.pickle", "wb") as f:
         pickle.dump(winner, f)
     
@@ -232,7 +308,18 @@ def run_neat(config):
     visualize.plot_stats(stats, ylog=False, view=True)
 
     visualize.plot_species(stats, view=True)
-    
+
+
+def test_winner(config):
+    with open("best.pickle", "rb") as f:
+        winner = pickle.load(f)
+    winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
+
+    width, height = 1280, 720
+    win = pygame.display.set_mode((width, height))
+    pygame.display.set_caption("Let there be Life")
+    gol = GoL(win, width, height)
+    gol.best_net(winner_net, config, draw=True)
 
 if __name__ == '__main__':
     local_dir = os.path.dirname(__file__)
@@ -243,5 +330,6 @@ if __name__ == '__main__':
                          config_path)
 
 
-    # spawn()
-    run_neat(config)
+
+    # run_neat(config)
+    test_winner(config)
