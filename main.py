@@ -53,7 +53,15 @@ class GoL:
                 self.game.draw(draw_score=True)
 
 
-            if game_info.score_1 >= 3 or game_info.score_2 >= 3 or game_info.score_1 <= -10 or game_info.score_2 <= -10:
+            if game_info.score_1 >= 10 or game_info.score_2 >= 10 or game_info.score_1 <= -10 or game_info.score_2 <= -10:
+
+                if self.score_1 > self.score_2:
+                    genome1.fitness -= 2
+                    genome2.fitness += 2
+                elif self.score_2 > self.score_1:
+                    genome2.fitness -= 2
+                    genome1.fitness += 2    
+
                 self.calculate_fitness(game_info, duration)
                 break
                           
@@ -104,26 +112,26 @@ class GoL:
             if decision == 0:  # Don't move
                 valid = self.game.move_life(False, False, False, False, cum=cum)
                 genome.fitness -= 0.1
-                life.NRG -= 1
+                life.NRG -= 2
                   # we want to discourage this
             elif decision == 1:  # Move up
                 valid = self.game.move_life(down=False, up=True, right=False, left=False, cum=cum)
-                life.NRG -= 2
+                life.NRG -= 3
             elif decision == 2:  # Move down
                 valid = self.game.move_life(up=False, right=False, left=False, down=True, cum=cum)
-                life.NRG -= 2
+                life.NRG -= 3
             elif decision == 3:  # Move left
                 valid = self.game.move_life(left=True, up=False, down=False, right=False, cum=cum)
-                life.NRG -= 2
+                life.NRG -= 3
             elif decision == 4:  # Move right
                 valid = self.game.move_life(up=False, down=False, right=True, left=False, cum=cum)
-                life.NRG -= 2
+                life.NRG -= 3
             if not valid:  # If the movement makes the square go off the screen punish the AI
                 genome.fitness -= 1
 
 
             if life.NRG <= 0: # If the square moves too much punish the
-                genome.fitness -= 1
+                genome.fitness -= 2
 
             if dist_food <= life.WIDTH + (self.food.RADIUS * 2.25):
                 genome.fitness += 0.01              
@@ -190,8 +198,8 @@ def eval_genomes(genomes, config):
 
 
 def run_neat(config):
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-49')
-    p = neat.Population(config)
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-9')
+    # p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
