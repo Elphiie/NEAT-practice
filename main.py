@@ -139,14 +139,6 @@ class GoL:
 
 
             if game_info.score_1 >= 10 or game_info.score_2 >= 10 or game_info.score_1 <= -10 or game_info.score_2 <= -10:
-
-                if self.score_1 > self.score_2:
-                    genome1.fitness -= 1
-                    genome2.fitness += 1
-                elif self.score_2 > self.score_1:
-                    genome2.fitness -= 1
-                    genome1.fitness += 1    
-
                 self.calculate_fitness(game_info, duration)
                 break
                           
