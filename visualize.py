@@ -135,8 +135,8 @@ def draw_net(config, genome, view=False, filename=None, node_names=None, show_di
     node_attrs = {
         'shape': 'circle',
         'fontsize': '9',
-        'height': '0.2',
-        'width': '0.2'}
+        'height': '0.3',
+        'width': '0.3'}
 
     dot = graphviz.Digraph(format=fmt, node_attr=node_attrs)
 

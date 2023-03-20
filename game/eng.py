@@ -50,7 +50,7 @@ class Game:
         self.rounds = 0
         self.window = window
         
-    def _draw_score(self):
+    def _draw_score(self, **kwargs):
         left_score_text = self.SCORE_FONT.render(
             f"Blue Score: {round(self.score_1)}", True, self.BLUE)
         right_score_text = self.SCORE_FONT.render(
@@ -181,7 +181,7 @@ class Game:
 
         return True
 
-    def loop(self, duration):
+    def loop(self):
         self.move_life()
         self._handle_collision()
 
