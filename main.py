@@ -33,7 +33,7 @@ class GoL:
 
         while run:
             pygame.display.update()
-            clock.tick(60)
+            clock.tick(6000)
             duration = time.time() - start_time
             self.game.dur = round(duration, 2)
             
