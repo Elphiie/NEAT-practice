@@ -20,7 +20,7 @@ class GoL:
 
 
 
-    def best_net(self, net, config, draw=False):
+    def best_net(self, net, draw=False):
         clock = pygame.time.Clock()
         start_time = time.time()
         run = True
@@ -70,9 +70,7 @@ class GoL:
                 (
                 life.x,
                 life.x - food.x,
-                food.x,
                 near_wall,
-                food.y, 
                 life.y - food.y, 
                 life.y,              
                 )
@@ -138,8 +136,9 @@ class GoL:
                 self.game.draw(draw_score=True)
 
 
-            if game_info.score_1 >= 10 or game_info.score_2 >= 10 or game_info.score_1 <= -10 or game_info.score_2 <= -10:
-                self.calculate_fitness(game_info, duration)
+            if game_info.score_1 >= 10 or game_info.score_2 >= 10 or game_info.score_1 <= -10 or game_info.score_2 <= -10: 
+
+                self.calculate_fitness(duration)
                 break
                           
         return False
@@ -206,20 +205,22 @@ class GoL:
 
 
             if life.NRG <= 0: # If the square moves too much punish the
-                genome.fitness -= 2
+                genome.fitness -= 1
 
             if dist_food <= life.WIDTH + (self.food.RADIUS * 2.25):
-                genome.fitness += 0.01              
-            elif dist_food <= life.WIDTH + (self.food.RADIUS * 2):
-                genome.fitness += 0.1           
-            elif dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
+                genome.fitness += 0.01
+
+            if dist_food <= life.WIDTH + (self.food.RADIUS * 2):
+                genome.fitness += 0.1
+
+            if dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
                 genome.fitness += 3
 
 
 
-    def calculate_fitness(self, game_info, duration):
-        self.genome1.fitness += game_info.score_1 + duration
-        self.genome2.fitness += game_info.score_2 + duration
+    def calculate_fitness(self, duration):
+        self.genome1.fitness += duration
+        self.genome2.fitness += duration
 
 
 
@@ -262,13 +263,13 @@ def eval_genomes(genomes, config):
 
 
 def run_neat(config):
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-9')
-    p = neat.Population(config)
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-68')
+    # p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(1))
-    winner = p.run(eval_genomes, 20)
+    winner = p.run(eval_genomes, 5)
     with open("best.pickle", "wb") as f:
         pickle.dump(winner, f)
     
@@ -278,9 +279,9 @@ def run_neat(config):
 
     node_names = {                
                 -5: 'life pos x',
-                -4: 'abs x',
+                -4: 'rel x',
                 -3: 'near wall?',                               
-                -2: 'abs y',
+                -2: 'rel y',
                 -1: 'life pos y',
                 0: 'stop',
                 1: 'up',
@@ -305,7 +306,7 @@ def test_winner(config):
     win = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Let there be Life")
     gol = GoL(win, width, height)
-    gol.best_net(winner_net, config, draw=True)
+    gol.best_net(winner_net, draw=True)
 
 if __name__ == '__main__':
     local_dir = os.path.dirname(__file__)
