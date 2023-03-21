@@ -136,7 +136,7 @@ class GoL:
                 self.game.draw(draw_score=True)
 
 
-            if game_info.score_1 >= 10 or game_info.score_2 >= 10 or game_info.score_1 <= -10 or game_info.score_2 <= -10: 
+            if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -10 or game_info.score_2 <= -10: 
 
                 self.calculate_fitness(duration)
                 break
