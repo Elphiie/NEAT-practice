@@ -44,7 +44,7 @@ class GoL:
                     break
 
             if draw:
-                self.game.draw(draw_score=True)         
+                self.game.draw(draw_score=True, draw1=True, draw2=False)         
 
             
             near_wall = False
@@ -65,40 +65,40 @@ class GoL:
             else:
                 near_wall = False
 
-
-            output = net.activate(
-                (
-                life.x,
-                life.x - food.x,
-                near_wall,
-                life.y - food.y, 
-                life.y,              
+            for food in self.food:
+                output = net.activate(
+                    (
+                    life.x,
+                    life.x - food.x,
+                    near_wall,
+                    life.y - food.y, 
+                    life.y,              
+                    )
                 )
-            )
 
-            decision = output.index(max(output))
+                decision = output.index(max(output))
 
-            valid = True
-            if decision == 0:  # Don't move
-                valid = self.game.move_life(False, False, False, False, cum=True)
-                life.NRG -= 2
-                # we want to discourage this
-            elif decision == 1:  # Move up
-                valid = self.game.move_life(down=False, up=True, right=False, left=False, cum=True)
-                life.NRG -= 3
-            elif decision == 2:  # Move down
-                valid = self.game.move_life(up=False, right=False, left=False, down=True, cum=True)
-                life.NRG -= 3
-            elif decision == 3:  # Move left
-                valid = self.game.move_life(left=True, up=False, down=False, right=False, cum=True)
-                life.NRG -= 3
-            elif decision == 4:  # Move right
-                valid = self.game.move_life(up=False, down=False, right=True, left=False, cum=True)
-                life.NRG -= 3
-            if not valid:
-                self.game.move_life(False, False, False, False, cum=True) 
+                valid = True
+                if decision == 0:  # Don't move
+                    valid = self.game.move_life(False, False, False, False, cum=True)
+                    life.NRG -= 2
+                    # we want to discourage this
+                elif decision == 1:  # Move up
+                    valid = self.game.move_life(down=False, up=True, right=False, left=False, cum=True)
+                    life.NRG -= 3
+                elif decision == 2:  # Move down
+                    valid = self.game.move_life(up=False, right=False, left=False, down=True, cum=True)
+                    life.NRG -= 3
+                elif decision == 3:  # Move left
+                    valid = self.game.move_life(left=True, up=False, down=False, right=False, cum=True)
+                    life.NRG -= 3
+                elif decision == 4:  # Move right
+                    valid = self.game.move_life(up=False, down=False, right=True, left=False, cum=True)
+                    life.NRG -= 3
+                if not valid:
+                    self.game.move_life(False, False, False, False, cum=True) 
 
-            self.game.loop()
+                self.game.loop()
 
         return False
 
@@ -133,7 +133,7 @@ class GoL:
                     return True       
 
             if draw:
-                self.game.draw(draw_score=True)
+                self.game.draw(draw_score=True, draw1=True, draw2=True)
 
 
             if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -10 or game_info.score_2 <= -10: 
@@ -150,71 +150,72 @@ class GoL:
         food = self.food
 
         for (genome, net, life, cum) in players:
-            dist_food = math.dist((life.x, life.y), (self.food.x, self.food.y))
-            near_wall = False
-
-            # checks if our squares is close to the window border            
-            if window_height + life.y <= window_height + 10:
-                near_wall = True
-                
-            elif life.y + life.HEIGHT + 10 >= window_height:
-                near_wall = True
-
-            elif window_width + life.x <= window_width + 10:
-                near_wall = True 
-
-            elif life.x + life.WIDTH + 10 >= window_width:
-                near_wall = True
-
-            else:
+            for food in self.food:
+                dist_food = math.dist((life.x, life.y), (food.x, food.y))
                 near_wall = False
 
+                # checks if our squares is close to the window border            
+                if window_height + life.y <= window_height + 10:
+                    near_wall = True
+                    
+                elif life.y + life.HEIGHT + 10 >= window_height:
+                    near_wall = True
 
-            output = net.activate(
-                (
-                life.x,
-                life.x - food.x,
-                near_wall,
-                life.y - food.y, 
-                life.y,              
+                elif window_width + life.x <= window_width + 10:
+                    near_wall = True 
+
+                elif life.x + life.WIDTH + 10 >= window_width:
+                    near_wall = True
+
+                else:
+                    near_wall = False
+
+
+                output = net.activate(
+                    (
+                    life.x,
+                    life.x - food.x,
+                    near_wall,
+                    life.y - food.y, 
+                    life.y,              
+                    )
                 )
-            )
 
-            decision = output.index(max(output))
+                decision = output.index(max(output))
 
-            valid = True
-            if decision == 0:  # Don't move
-                valid = self.game.move_life(False, False, False, False, cum=cum)
-                genome.fitness -= 0.1
-                life.NRG -= 2
-                  # we want to discourage this
-            elif decision == 1:  # Move up
-                valid = self.game.move_life(down=False, up=True, right=False, left=False, cum=cum)
-                life.NRG -= 3
-            elif decision == 2:  # Move down
-                valid = self.game.move_life(up=False, right=False, left=False, down=True, cum=cum)
-                life.NRG -= 3
-            elif decision == 3:  # Move left
-                valid = self.game.move_life(left=True, up=False, down=False, right=False, cum=cum)
-                life.NRG -= 3
-            elif decision == 4:  # Move right
-                valid = self.game.move_life(up=False, down=False, right=True, left=False, cum=cum)
-                life.NRG -= 3
-            if not valid:  # If the movement makes the square go off the screen punish the AI
-                genome.fitness -= 1
+                valid = True
+                if decision == 0:  # Don't move
+                    valid = self.game.move_life(False, False, False, False, cum=cum)
+                    genome.fitness -= 0.1
+                    life.NRG -= 2
+                    # we want to discourage this
+                elif decision == 1:  # Move up
+                    valid = self.game.move_life(down=False, up=True, right=False, left=False, cum=cum)
+                    life.NRG -= 3
+                elif decision == 2:  # Move down
+                    valid = self.game.move_life(up=False, right=False, left=False, down=True, cum=cum)
+                    life.NRG -= 3
+                elif decision == 3:  # Move left
+                    valid = self.game.move_life(left=True, up=False, down=False, right=False, cum=cum)
+                    life.NRG -= 3
+                elif decision == 4:  # Move right
+                    valid = self.game.move_life(up=False, down=False, right=True, left=False, cum=cum)
+                    life.NRG -= 3
+                if not valid:  # If the movement makes the square go off the screen punish the AI
+                    genome.fitness -= 1
 
 
-            if life.NRG <= 0: # If the square moves too much punish the
-                genome.fitness -= 1
+                if life.NRG <= 0: # If the square moves too much punish the
+                    genome.fitness -= 1
 
-            if dist_food <= life.WIDTH + (self.food.RADIUS * 2.25):
-                genome.fitness += 0.01
+                if dist_food <= life.WIDTH + (food.RADIUS * 2.25):
+                    genome.fitness += 0.01
 
-            if dist_food <= life.WIDTH + (self.food.RADIUS * 2):
-                genome.fitness += 0.1
+                if dist_food <= life.WIDTH + (food.RADIUS * 2):
+                    genome.fitness += 0.1
 
-            if dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
-                genome.fitness += 3
+                if dist_food <= life.WIDTH + (food.RADIUS * 1.3):
+                    genome.fitness += 3
 
 
 
@@ -254,9 +255,9 @@ def eval_genomes(genomes, config):
             force_quit = gol.train_ai(genome1, genome2, config, duration=time.time()-start_time, draw=True)
             if force_quit:
                 #saves an svg file vizualising the network for current genomes playing at the time of closing
-                visualize.draw_net(config, genome1, True, '1', node_names=node_names)
+                # visualize.draw_net(config, genome1, True, '1', node_names=node_names)
 
-                visualize.draw_net(config, genome2, True, '2', node_names=node_names)
+                # visualize.draw_net(config, genome2, True, '2', node_names=node_names)
                
                 quit()
 

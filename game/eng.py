@@ -40,7 +40,9 @@ class Game:
         self.life_2 = Life(
             self.GREEN, self.window_width - 10 - Life.WIDTH, self.window_height // 2 - Life.HEIGHT//2, Life.NRG)
         
-        self.food = Food(self.window_width // 2, self.window_height // 2)
+        self.food = []
+        for i in range(5):
+            self.food.append(Food())
         
         self.score_1 = 0
         self.score_2 = 0
@@ -77,34 +79,40 @@ class Game:
     def _handle_collision(self):
           
         for life in [self.life_1]:
-            d = math.dist((life.x, life.y), (self.food.x, self.food.y))
+            for food in self.food:
+                d = math.dist((life.x, life.y), (food.x, food.y))
 
             
-            if d <= Life.WIDTH + (self.food.RADIUS * 1.3):
-                self.score_1 += 1
-                life.NRG += 2200
-                self.food.reset()
+                if d <= Life.WIDTH + (food.RADIUS * 1.3):
+                    self.score_1 += 1
+                    life.NRG += 2200
+                    food.reset()
 
 
 
         for life in [self.life_2]:
-            d = math.dist((life.x, life.y), (self.food.x, self.food.y))
+            for food in self.food:
+                d = math.dist((life.x, life.y), (food.x, food.y))
 
             
-            if d <= Life.WIDTH + (self.food.RADIUS * 1.3):
-                self.score_2 += 1
-                life.NRG += 2200
-                self.food.reset()
+                if d <= Life.WIDTH + (food.RADIUS * 1.3):
+                    self.score_2 += 1
+                    life.NRG += 2200
+                    food.reset()
             
 
-    def draw(self, draw_score=True):
+    def draw(self, draw_score, draw1, draw2):
         self.window.fill(self.BLACK)
         if draw_score:
             self._draw_score()
 
-        self.life_1.draw(self.window)
-        self.life_2.draw(self.window)
-        self.food.draw(self.window)
+        if draw1:
+            self.life_1.draw(self.window)
+        if draw2:
+            self.life_2.draw(self.window)
+
+        for food in self.food:
+            food.draw(self.window)
         
 
 
@@ -192,7 +200,9 @@ class Game:
         
 
     def reset(self):
-        self.food.reset()
+        for food in self.food:
+            food.reset()
+
         self.life_1.reset()
         self.life_2.reset()
         self.score_1 = 0
