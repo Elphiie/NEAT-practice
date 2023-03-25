@@ -14,8 +14,12 @@ class GoL:
         self.game = Game(window, width, height)
         self.life_1 = self.game.life_1
         self.life_2 = self.game.life_2
+        self.life_3 = self.game.life_3
+        self.life_4 = self.game.life_4
         self.score_1 = self.game.score_1
         self.score_2 = self.game.score_2
+        self.score_3 = self.game.score_3
+        self.score_4 = self.game.score_4
         self.food = self.game.food
 
 
@@ -44,7 +48,7 @@ class GoL:
                     break
 
             if draw:
-                self.game.draw(draw_score=True, draw1=True, draw2=False)         
+                self.game.draw(draw_score=True, draw1=True, draw2=False, draw3=False, draw4=False)         
 
             
             near_wall = False
@@ -80,7 +84,7 @@ class GoL:
 
                 valid = True
                 if decision == 0:  # Don't move
-                    valid = self.game.move_life(False, False, False, False, cum=True)
+                    valid = self.game.move_life(False, False, False, False, cum=True, balls=True)
                     life.NRG -= 2
                     # we want to discourage this
                 elif decision == 1:  # Move up
@@ -103,15 +107,20 @@ class GoL:
         return False
 
 
-    def train_ai(self, genome1, genome2, config, duration, draw=False):
+    def train_ai(self, genome1, genome2, genome3, genome4, config, duration, draw=False):
         run = True
         start_time = time.time()
         clock = pygame.time.Clock()
 
         net1 = neat.nn.FeedForwardNetwork.create(genome1, config)
         net2 = neat.nn.FeedForwardNetwork.create(genome2, config)
+        net3 = neat.nn.FeedForwardNetwork.create(genome3, config)
+        net4 = neat.nn.FeedForwardNetwork.create(genome4, config)
+
         self.genome1 = genome1
         self.genome2 = genome2
+        self.genome3 = genome3
+        self.genome4 = genome4
 
         while run:
             pygame.display.update()
@@ -125,7 +134,7 @@ class GoL:
 
             game_info = self.game.loop()
 
-            self.move_ai(net1, net2)
+            self.move_ai(net1, net2, net3, net4)
 
 
             for event in pygame.event.get():
@@ -133,23 +142,23 @@ class GoL:
                     return True       
 
             if draw:
-                self.game.draw(draw_score=True, draw1=True, draw2=True)
+                self.game.draw(draw_score=True, draw1=True, draw2=True, draw3=True, draw4=True)
 
 
-            if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -10 or game_info.score_2 <= -10: 
+            if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_3 >= 100 or game_info.score_4 >= 100 or game_info.score_1 <= -10 or game_info.score_2 <= -10 or game_info.score_3 <= -10 or game_info.score_4 <= -10: 
 
                 self.calculate_fitness(duration)
                 break
                           
         return False
 
-    def move_ai(self, net1, net2):
-        players = [(self.genome1, net1, self.life_1, True), (self.genome2, net2, self.life_2, False)]
+    def move_ai(self, net1, net2, net3, net4):
+        players = [(self.genome1, net1, self.life_1, True, True), (self.genome2, net2, self.life_2, True, False), (self.genome3, net3, self.life_3, False, True), (self.genome4, net4, self.life_4, False, False)]
         window_height = self.game.window_height
         window_width = self.game.window_width
         food = self.food
 
-        for (genome, net, life, cum) in players:
+        for (genome, net, life, cum, balls) in players:
             for food in self.food:
                 dist_food = math.dist((life.x, life.y), (food.x, food.y))
                 near_wall = False
@@ -185,21 +194,21 @@ class GoL:
 
                 valid = True
                 if decision == 0:  # Don't move
-                    valid = self.game.move_life(False, False, False, False, cum=cum)
+                    valid = self.game.move_life(False, False, False, False, cum=cum, balls=balls)
                     genome.fitness -= 0.1
                     life.NRG -= 2
                     # we want to discourage this
                 elif decision == 1:  # Move up
-                    valid = self.game.move_life(down=False, up=True, right=False, left=False, cum=cum)
+                    valid = self.game.move_life(down=False, up=True, right=False, left=False, cum=cum, balls=balls)
                     life.NRG -= 3
                 elif decision == 2:  # Move down
-                    valid = self.game.move_life(up=False, right=False, left=False, down=True, cum=cum)
+                    valid = self.game.move_life(up=False, right=False, left=False, down=True, cum=cum, balls=balls)
                     life.NRG -= 3
                 elif decision == 3:  # Move left
-                    valid = self.game.move_life(left=True, up=False, down=False, right=False, cum=cum)
+                    valid = self.game.move_life(left=True, up=False, down=False, right=False, cum=cum, balls=balls)
                     life.NRG -= 3
                 elif decision == 4:  # Move right
-                    valid = self.game.move_life(up=False, down=False, right=True, left=False, cum=cum)
+                    valid = self.game.move_life(up=False, down=False, right=True, left=False, cum=cum, balls=balls)
                     life.NRG -= 3
                 if not valid:  # If the movement makes the square go off the screen punish the AI
                     genome.fitness -= 1
@@ -216,6 +225,8 @@ class GoL:
     def calculate_fitness(self, duration):
         self.genome1.fitness += duration
         self.genome2.fitness += duration
+        self.genome3.fitness += duration
+        self.genome4.fitness += duration
 
 
 
@@ -244,16 +255,19 @@ def eval_genomes(genomes, config):
         genome1.fitness = 0
         for genome_id2, genome2 in genomes[min(i+1, len(genomes) - 1):]:
             genome2.fitness = 0 if genome2.fitness == None else genome2.fitness
-            gol = GoL(win, width, height)
+            for genome_id3, genome3 in genomes[min(i+2, len(genomes) - 1):]:
+                genome3.fitness = 0 if genome3.fitness == None else genome3.fitness
+                for genome_id4, genome4 in genomes[min(i+3, len(genomes) - 1):]:
+                    genome4.fitness = 0 if genome4.fitness == None else genome4.fitness
+                    gol = GoL(win, width, height)
+                    force_quit = gol.train_ai(genome1, genome2, genome3, genome4, config, duration=time.time()-start_time, draw=True)
+                    if force_quit:
+                        #saves an svg file vizualising the network for current genomes playing at the time of closing
+                        # visualize.draw_net(config, genome1, True, '1', node_names=node_names)
 
-            force_quit = gol.train_ai(genome1, genome2, config, duration=time.time()-start_time, draw=True)
-            if force_quit:
-                #saves an svg file vizualising the network for current genomes playing at the time of closing
-                # visualize.draw_net(config, genome1, True, '1', node_names=node_names)
-
-                # visualize.draw_net(config, genome2, True, '2', node_names=node_names)
+                        # visualize.draw_net(config, genome2, True, '2', node_names=node_names)
                
-                quit()
+                        quit()
 
 
 
