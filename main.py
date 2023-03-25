@@ -208,13 +208,7 @@ class GoL:
                 if life.NRG <= 0: # If the square moves too much punish the
                     genome.fitness -= 1
 
-                if dist_food <= life.WIDTH + (food.RADIUS * 2.25):
-                    genome.fitness += 0.01
-
-                if dist_food <= life.WIDTH + (food.RADIUS * 2):
-                    genome.fitness += 0.1
-
-                if dist_food <= life.WIDTH + (food.RADIUS * 1.3):
+                if dist_food <= life.WIDTH + food.RADIUS:
                     genome.fitness += 3
 
 
