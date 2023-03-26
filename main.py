@@ -151,20 +151,23 @@ class GoL:
 
         for (genome, net, life, cum) in players:
             dist_food = math.dist((life.x, life.y), (self.food.x, self.food.y))
-            near_wall = False
+            near_wall_up = False
+            near_wall_down = False
+            near_wall_left = False
+            near_wall_rigth = False
 
             # checks if our squares is close to the window border            
             if window_height + life.y <= window_height + 10:
-                near_wall = True
+                near_wall_up = True
                 
             elif life.y + life.HEIGHT + 10 >= window_height:
-                near_wall = True
+                near_wall_down = True
 
             elif window_width + life.x <= window_width + 10:
-                near_wall = True 
+                near_wall_left = True 
 
             elif life.x + life.WIDTH + 10 >= window_width:
-                near_wall = True
+                near_wall_rigth = True
 
             else:
                 near_wall = False
@@ -172,10 +175,13 @@ class GoL:
 
             output = net.activate(
                 (
+                near_wall_left,
                 life.x,
+                near_wall_rigth,
                 life.x - food.x,
-                near_wall,
-                life.y - food.y, 
+                near_wall_up,
+                life.y - food.y,
+                near_wall_down, 
                 life.y,              
                 )
             )
@@ -231,11 +237,14 @@ def eval_genomes(genomes, config):
     win = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Ai-test")
 
-    node_names = {                
-                -5: 'life pos x',
-                -4: 'abs x',
-                -3: 'near wall?',                               
-                -2: 'abs y',
+    node_names = {
+                -8:'near wall left',                
+                -7: 'life pos x',
+                -6: 'near wall right',
+                -5: 'food dist x',
+                -4: 'near wall up',                               
+                -3: 'food dist y',
+                -2: 'near wall down',
                 -1: 'life pos y',
                 0: 'stop',
                 1: 'up',
@@ -277,11 +286,14 @@ def run_neat(config):
         winner = pickle.load(f)
 
 
-    node_names = {                
-                -5: 'life pos x',
-                -4: 'rel x',
-                -3: 'near wall?',                               
-                -2: 'rel y',
+    node_names = {
+                -8:'near wall left',                
+                -7: 'life pos x',
+                -6: 'near wall right',
+                -5: 'food dist x',
+                -4: 'near wall up',                               
+                -3: 'food dist y',
+                -2: 'near wall down',
                 -1: 'life pos y',
                 0: 'stop',
                 1: 'up',
