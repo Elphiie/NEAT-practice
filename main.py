@@ -170,7 +170,10 @@ class GoL:
                 near_wall_rigth = True
 
             else:
-                near_wall = False
+                near_wall_up = False
+                near_wall_down = False
+                near_wall_left = False
+                near_wall_rigth = False
 
 
             output = net.activate(
