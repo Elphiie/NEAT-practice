@@ -24,7 +24,7 @@ class Game:
     RED = (255, 0, 0)
     BLUE = (50, 20, 255)
     GREEN = (20, 255, 150)
-
+    CYAN = (0, 255, 255)
     start_time = time.time()
     clock = pygame.time.Clock()
 
@@ -35,7 +35,7 @@ class Game:
         self.window_height = window_height
 
         self.life_1 = Life(
-            self.BLUE, self.window_width - 10 - Life.WIDTH, self.window_height // 2 - Life.HEIGHT//2, Life.NRG)
+            self.CYAN, self.window_width - 10 - Life.WIDTH, self.window_height // 2 - Life.HEIGHT//2, Life.NRG)
         
         self.food = Food(self.window_width // 2, self.window_height // 2)
         
@@ -48,7 +48,7 @@ class Game:
         
     def _draw_score(self, **kwargs):
         left_score_text = self.SCORE_FONT.render(
-            f"Blue Score: {round(self.score_1)}", True, self.BLUE)
+            f"Blue Score: {round(self.score_1)}", True, self.CYAN)
         time_text = self.INF_FONT.render(
             f"Time: {self.dur}", True, self.YELLOW)
         tick_text = self.INF_FONT.render(
