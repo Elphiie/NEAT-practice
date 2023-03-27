@@ -81,7 +81,7 @@ class Game:
 
             
             if d <= Life.WIDTH + (self.food.RADIUS * 1.3):
-                self.score_1 += 1
+                self.score_1 += 10
                 life.NRG += 2200
                 self.food.reset()
 
