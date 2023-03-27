@@ -74,8 +74,7 @@ class Game:
         self.window.blit(fps_text, (self.window_width * (1/18) -
                                             fps_text.get_width()//2, 85,))
 
-    def _handle_collision(self):
-          
+    def _handle_collision(self):  
         for life in [self.life_1]:
             d = math.dist((life.x, life.y), (self.food.x, self.food.y))
 
