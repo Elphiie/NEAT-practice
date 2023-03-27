@@ -16,10 +16,27 @@ class Life:
         self.NRG = NRG
 
     #to draw a square if called
-    def draw(self, win):
-        pygame.draw.rect(
-            win, self.color, (self.x, self.y, self.WIDTH, self.HEIGHT))
+    def draw(self, win):        
+        color = (0, 0, 0)
+        width = int(self.NRG / 100)
+        x = self.x
+       
         
+        if self.NRG > 1250:
+            color = (0, 255, 0)
+        elif self.NRG <= 1250 and self.NRG > 625:
+            color = (255, 255, 0)
+        elif self.NRG <= 625:
+            color = (255, 50, 50)
+
+        # if self.NRG > 2500:
+        #     x = int(self.x - (self.NRG / 1000) + (self.WIDTH/2))
+
+        pygame.draw.rect(
+                    win, self.color, (self.x, self.y, self.WIDTH, self.HEIGHT))
+        pygame.draw.rect(
+            win, color, (x, self.y - 6, width, 4))
+            
     #movement functions
     def move_up(self, up=True):
         if up:

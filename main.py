@@ -132,7 +132,7 @@ class GoL:
                 self.game.draw(draw_score=True)
 
 
-            if game_info.score_1 >= 100 or game_info.score_1 <= -10: 
+            if game_info.score_1 >= 3 or game_info.score_1 <= -10: 
 
                 self.calculate_fitness(duration)
                 break
@@ -213,8 +213,8 @@ class GoL:
                 genome.fitness -= 1
 
 
-            if dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
-                genome.fitness += 3
+            if dist_food <= life.WIDTH + (self.food.RADIUS * 1.31):
+                genome.fitness += 10
 
 
 
@@ -253,7 +253,7 @@ def eval_genomes(genomes, config):
         force_quit = gol.train_ai(genome1, config, duration=time.time()-start_time, draw=True)
         if force_quit:
             #saves an svg file vizualising the network for current genomes playing at the time of closing
-            visualize.draw_net(config, genome1, True, '1', node_names=node_names)
+            # visualize.draw_net(config, genome1, True, '1', node_names=node_names)
             
             quit()
 
@@ -266,7 +266,7 @@ def run_neat(config):
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(5))
-    winner = p.run(eval_genomes, 150)
+    winner = p.run(eval_genomes, 75)
     with open("best.pickle", "wb") as f:
         pickle.dump(winner, f)
     
