@@ -57,8 +57,7 @@ class Game:
             f"FPS: {self.fps}", True, self.YELLOW)
 
             
-        self.window.blit(left_score_text, (self.window_width //
-                                           4 - left_score_text.get_width()//2, 20))
+        self.window.blit(left_score_text, (self.window_width //2.5, 20))
         self.window.blit(time_text, (self.window_width * (1/18) -
                                             time_text.get_width()//2, 15))
         self.window.blit(tick_text, (self.window_width * (1/18) -

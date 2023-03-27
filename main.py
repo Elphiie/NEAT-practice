@@ -258,7 +258,7 @@ def eval_genomes(genomes, config):
         force_quit = gol.train_ai(genome1, config, duration=time.time()-start_time, draw=True)
         if force_quit:
             #saves an svg file vizualising the network for current genomes playing at the time of closing
-            visualize.draw_net(config, genome1, True, '1', node_names=node_names)
+            # visualize.draw_net(config, genome1, True, '1', node_names=node_names)
             
             quit()
 
