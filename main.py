@@ -13,9 +13,7 @@ class GoL:
     def __init__(self, window, width, height):
         self.game = Game(window, width, height)
         self.life_1 = self.game.life_1
-        self.life_2 = self.game.life_2
         self.score_1 = self.game.score_1
-        self.score_2 = self.game.score_2
         self.food = self.game.food
 
 
@@ -103,15 +101,13 @@ class GoL:
         return False
 
 
-    def train_ai(self, genome1, genome2, config, duration, draw=False):
+    def train_ai(self, genome1, config, duration, draw=False):
         run = True
         start_time = time.time()
         clock = pygame.time.Clock()
 
         net1 = neat.nn.FeedForwardNetwork.create(genome1, config)
-        net2 = neat.nn.FeedForwardNetwork.create(genome2, config)
         self.genome1 = genome1
-        self.genome2 = genome2
 
         while run:
             pygame.display.update()
@@ -125,7 +121,7 @@ class GoL:
 
             game_info = self.game.loop()
 
-            self.move_ai(net1, net2)
+            self.move_ai(net1)
 
 
             for event in pygame.event.get():
@@ -136,15 +132,15 @@ class GoL:
                 self.game.draw(draw_score=True)
 
 
-            if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -10 or game_info.score_2 <= -10: 
+            if game_info.score_1 >= 100 or game_info.score_1 <= -10: 
 
                 self.calculate_fitness(duration)
                 break
                           
         return False
 
-    def move_ai(self, net1, net2):
-        players = [(self.genome1, net1, self.life_1, True), (self.genome2, net2, self.life_2, False)]
+    def move_ai(self, net1):
+        players = [(self.genome1, net1, self.life_1, True)]
         window_height = self.game.window_height
         window_width = self.game.window_width
         food = self.food
@@ -229,8 +225,6 @@ class GoL:
 
     def calculate_fitness(self, duration):
         self.genome1.fitness += duration
-        self.genome2.fitness += duration
-
 
 
 
@@ -259,18 +253,14 @@ def eval_genomes(genomes, config):
     for i, (genome_id1, genome1) in enumerate(genomes):
         print(round(i/len(genomes) * 100), end=" ")
         genome1.fitness = 0
-        for genome_id2, genome2 in genomes[min(i+1, len(genomes) - 1):]:
-            genome2.fitness = 0 if genome2.fitness == None else genome2.fitness
-            gol = GoL(win, width, height)
+        gol = GoL(win, width, height)
 
-            force_quit = gol.train_ai(genome1, genome2, config, duration=time.time()-start_time, draw=True)
-            if force_quit:
-                #saves an svg file vizualising the network for current genomes playing at the time of closing
-                visualize.draw_net(config, genome1, True, '1', node_names=node_names)
-
-                visualize.draw_net(config, genome2, True, '2', node_names=node_names)
-               
-                quit()
+        force_quit = gol.train_ai(genome1, config, duration=time.time()-start_time, draw=True)
+        if force_quit:
+            #saves an svg file vizualising the network for current genomes playing at the time of closing
+            visualize.draw_net(config, genome1, True, '1', node_names=node_names)
+            
+            quit()
 
 
 
