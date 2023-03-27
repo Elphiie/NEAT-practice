@@ -136,7 +136,7 @@ class GoL:
                 self.game.draw(draw_score=True)
 
 
-            if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -100 or game_info.score_2 <= -100: 
+            if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -10 or game_info.score_2 <= -10: 
 
                 self.calculate_fitness(duration)
                 break
@@ -275,7 +275,7 @@ def eval_genomes(genomes, config):
 
 
 def run_neat(config):
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-1')
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-21')
     # p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
