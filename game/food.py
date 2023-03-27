@@ -5,8 +5,8 @@ class Food:
     RADIUS = 60
 
     def __init__(self, x, y):
-        self.x = randint(100, 1180)
-        self.y = randint(100, 620)
+        self.x = randint(160, 1140)
+        self.y = randint(160, 580)
 
     def draw(self, win):
         pygame.draw.circle(
