@@ -212,11 +212,6 @@ class GoL:
             if life.NRG <= 0: # If the square moves too much punish the
                 genome.fitness -= 1
 
-            if dist_food <= life.WIDTH + (self.food.RADIUS * 2.25):
-                genome.fitness += 0.01
-
-            if dist_food <= life.WIDTH + (self.food.RADIUS * 2):
-                genome.fitness += 0.1
 
             if dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
                 genome.fitness += 3
@@ -258,20 +253,20 @@ def eval_genomes(genomes, config):
         force_quit = gol.train_ai(genome1, config, duration=time.time()-start_time, draw=True)
         if force_quit:
             #saves an svg file vizualising the network for current genomes playing at the time of closing
-            # visualize.draw_net(config, genome1, True, '1', node_names=node_names)
+            visualize.draw_net(config, genome1, True, '1', node_names=node_names)
             
             quit()
 
 
 
 def run_neat(config):
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-21')
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-94')
     p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
-    p.add_reporter(neat.Checkpointer(1))
-    winner = p.run(eval_genomes, 25)
+    p.add_reporter(neat.Checkpointer(5))
+    winner = p.run(eval_genomes, 150)
     with open("best.pickle", "wb") as f:
         pickle.dump(winner, f)
     
