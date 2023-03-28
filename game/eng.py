@@ -96,13 +96,15 @@ class Game:
                 self.food.reset()
             
 
-    def draw(self, draw_score=True):
+    def draw(self, draw_score=True, draw1=False, draw2=False):
         self.window.fill(self.BLACK)
         if draw_score:
             self._draw_score()
 
-        self.life_1.draw(self.window)
-        self.life_2.draw(self.window)
+        if draw1:
+            self.life_1.draw(self.window)
+        if draw2:
+            self.life_2.draw(self.window)
         self.food.draw(self.window)
         
 

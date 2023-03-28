@@ -26,7 +26,7 @@ class GoL:
         run = True
 
         life = self.life_1
-    
+
         food = self.food
         window_height = self.game.window_height
         window_width = self.game.window_height
@@ -44,34 +44,43 @@ class GoL:
                     break
 
             if draw:
-                self.game.draw(draw_score=True)         
+                self.game.draw(draw_score=True, draw1=True, draw2=False)         
 
             
-            near_wall = False
+            near_wall_up = False
+            near_wall_down = False
+            near_wall_left = False
+            near_wall_rigth = False
 
             # checks if our squares is close to the window border            
             if window_height + life.y <= window_height + 10:
-                near_wall = True
+                near_wall_up = True
                 
             elif life.y + life.HEIGHT + 10 >= window_height:
-                near_wall = True
+                near_wall_down = True
 
             elif window_width + life.x <= window_width + 10:
-                near_wall = True 
+                near_wall_left = True 
 
             elif life.x + life.WIDTH + 10 >= window_width:
-                near_wall = True
+                near_wall_rigth = True
 
             else:
-                near_wall = False
+                near_wall_up = False
+                near_wall_down = False
+                near_wall_left = False
+                near_wall_rigth = False
 
 
             output = net.activate(
                 (
+                near_wall_left,
                 life.x,
+                near_wall_rigth,
                 life.x - food.x,
-                near_wall,
-                life.y - food.y, 
+                near_wall_up,
+                life.y - food.y,
+                near_wall_down, 
                 life.y,              
                 )
             )
@@ -133,7 +142,7 @@ class GoL:
                     return True       
 
             if draw:
-                self.game.draw(draw_score=True)
+                self.game.draw(draw_score=True, draw1=True, draw2=True)
 
 
             if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -10 or game_info.score_2 <= -10: 
@@ -216,9 +225,6 @@ class GoL:
             if life.NRG <= 0: # If the square moves too much punish the
                 genome.fitness -= 1
 
-            if dist_food <= life.WIDTH + (self.food.RADIUS * 2.25):
-                genome.fitness += 0.01
-
             if dist_food <= life.WIDTH + (self.food.RADIUS * 2):
                 genome.fitness += 0.1
 
@@ -275,7 +281,7 @@ def eval_genomes(genomes, config):
 
 
 def run_neat(config):
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-29')
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-38')
     # p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
@@ -326,7 +332,6 @@ def test_winner(config):
 if __name__ == '__main__':
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config.txt')
-
     config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                          neat.DefaultSpeciesSet, neat.DefaultStagnation,
                          config_path)
