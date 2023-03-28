@@ -186,14 +186,10 @@ class GoL:
 
 
             output = net.activate(
-                (
-                near_wall_left,
+                (                
                 life.x,
-                near_wall_rigth,
                 life.x - food.x,
-                near_wall_up,
                 life.y - food.y,
-                near_wall_down, 
                 life.y,              
                 )
             )
@@ -226,10 +222,10 @@ class GoL:
                 genome.fitness -= 1
 
             if dist_food <= life.WIDTH + (self.food.RADIUS * 2):
-                genome.fitness += 0.1
+                genome.fitness += 0.3
 
             if dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
-                genome.fitness += 3
+                genome.fitness += 9
 
 
 
@@ -281,13 +277,13 @@ def eval_genomes(genomes, config):
 
 
 def run_neat(config):
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-38')
-    # p = neat.Population(config)
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-47')
+    p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
-    p.add_reporter(neat.Checkpointer(1))
-    winner = p.run(eval_genomes, 10)
+    p.add_reporter(neat.Checkpointer(2))
+    winner = p.run(eval_genomes, 20)
     with open("best.pickle", "wb") as f:
         pickle.dump(winner, f)
     
@@ -295,14 +291,10 @@ def run_neat(config):
         winner = pickle.load(f)
 
 
-    node_names = {
-                -8:'near wall left',                
-                -7: 'life pos x',
-                -6: 'near wall right',
-                -5: 'food dist x',
-                -4: 'near wall up',                               
-                -3: 'food dist y',
-                -2: 'near wall down',
+    node_names = {               
+                -4: 'life pos x',
+                -3: 'food dist x',                              
+                -2: 'food dist y',
                 -1: 'life pos y',
                 0: 'stop',
                 1: 'up',
