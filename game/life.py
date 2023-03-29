@@ -7,7 +7,7 @@ class Life:
     VEL = 6
     WIDTH = 30
     HEIGHT = 30
-    NRG = 6500
+    NRG = 3000
 
     def __init__(self, color, x, y, NRG):
         self.x = randint(40, 1240)
@@ -18,10 +18,16 @@ class Life:
     #to draw a square if called
     def draw(self, win):        
         color = (0, 0, 0)
-        # div1 = (self.NRG / 6000)
-        last_bar_width = int(self.NRG / 100)
-        # second_bar_width = int(self.NRG/(10*div1))
-        # third_bar_width = int((self.NRG)/300)
+
+        # energy bars
+        div1 = int((self.NRG-6000)/100)
+        div2 = int((self.NRG-12000)/100)
+        div3 = int((self.NRG-18000)/100)
+
+        bar1 = int(self.NRG / 100)
+        bar2 = div1
+        bar3 = div2
+        bar4 = div3
         x = self.x
        
         
@@ -33,23 +39,29 @@ class Life:
             color = (255, 50, 50)
 
         if self.NRG >= 6000:
-            last_bar_width = 60
+            bar1 = 60
+        if self.NRG >= 12000:
+            bar2 = 60
+        if self.NRG >= 18000:
+            bar3 = 60
 
         pygame.draw.rect(
                     win, self.color, (self.x, self.y, self.WIDTH, self.HEIGHT))
         
         pygame.draw.rect(
-            win, color, (x, self.y - 6, last_bar_width, 4))
+            win, color, (x, self.y - 6, bar1, 4))
 
-        # if self.NRG >= 6000:
-        #     pygame.draw.rect(
-        #     win, (0, 50, 255), (x, self.y - 6, second_bar_width, 4))
+        if self.NRG >= 6000:
+            pygame.draw.rect(
+            win, (0, 50, 255), (x, self.y - 6, bar2, 4))
         
-        # if self.NRG >= 6000:
-        #     second_bar_width = 30
-        #     pygame.draw.rect(
-        #     win, (255, 100, 255), (x, self.y - 6, third_bar_width, 4))
-                
+        if self.NRG >= 12000:
+            pygame.draw.rect(
+            win, (255, 100, 255), (x, self.y - 6, bar3, 4))
+        
+        if self.NRG >= 18000:
+            pygame.draw.rect(
+            win, (255, 150, 50), (x, self.y - 6, bar4, 4))
             
     #movement functions
     def move_up(self, up=True):
