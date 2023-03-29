@@ -111,7 +111,7 @@ class GoL:
 
         while run:
             pygame.display.update()
-            clock.tick(6000)
+            clock.tick(60)
             raw_time = pygame.time.get_ticks()
             fps = clock.get_fps()
             duration = time.time() - start_time

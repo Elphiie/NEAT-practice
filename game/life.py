@@ -8,17 +8,25 @@ class Life:
     WIDTH = 30
     HEIGHT = 30
     NRG = 2500
+    FD_COUNT = 4
 
-    def __init__(self, color, x, y, NRG):
+    def __init__(self, color, x, y, NRG, FD_COUNT):
         self.x = randint(40, 1240)
         self.y = randint(40, 660)
         self.color = color
         self.NRG = NRG
+        self.FD_COUNT = FD_COUNT
 
     #to draw a square if called
     def draw(self, win):
+        tail_x = self.x + int(self.WIDTH/2)*self.FD_COUNT
+        tail = []
         pygame.draw.rect(
             win, self.color, (self.x, self.y, self.WIDTH, self.HEIGHT))
+        
+        for i in range(self.FD_COUNT-1):
+            pygame.draw.rect(
+            win, self.color, (tail_x, self.y, self.WIDTH, self.HEIGHT))
         
     #movement functions
     def move_up(self, up=True):

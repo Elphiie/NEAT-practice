@@ -35,7 +35,7 @@ class Game:
         self.window_height = window_height
 
         self.life_1 = Life(
-            self.CYAN, self.window_width - 10 - Life.WIDTH, self.window_height // 2 - Life.HEIGHT//2, Life.NRG)
+            self.CYAN, self.window_width - 10 - Life.WIDTH, self.window_height // 2 - Life.HEIGHT//2, Life.NRG, Life.FD_COUNT)
         
         self.food = Food(self.window_width // 2, self.window_height // 2)
         
@@ -71,6 +71,7 @@ class Game:
 
             
             if d <= Life.WIDTH + (self.food.RADIUS * 1.3):
+                life.FD_COUNT += 1
                 self.score_1 += 1
                 life.NRG += 2200
                 self.food.reset()
