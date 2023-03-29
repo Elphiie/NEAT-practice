@@ -7,7 +7,7 @@ class Life:
     VEL = 6
     WIDTH = 30
     HEIGHT = 30
-    NRG = 3100
+    NRG = 6500
 
     def __init__(self, color, x, y, NRG):
         self.x = randint(40, 1240)
@@ -18,20 +18,22 @@ class Life:
     #to draw a square if called
     def draw(self, win):        
         color = (0, 0, 0)
+        # div1 = (self.NRG / 6000)
         last_bar_width = int(self.NRG / 100)
-        second_bar_width = int((self.NRG / 2)/100)
+        # second_bar_width = int(self.NRG/(10*div1))
+        # third_bar_width = int((self.NRG)/300)
         x = self.x
        
         
-        if self.NRG > 1250:
+        if self.NRG > 1500:
             color = (0, 255, 0)
-        elif self.NRG <= 1250 and self.NRG > 625:
+        elif self.NRG <= 1250 and self.NRG > 750:
             color = (255, 255, 0)
-        elif self.NRG <= 625:
+        elif self.NRG <= 750:
             color = (255, 50, 50)
 
-        if self.NRG >= 3000:
-            last_bar_width = 30
+        if self.NRG >= 6000:
+            last_bar_width = 60
 
         pygame.draw.rect(
                     win, self.color, (self.x, self.y, self.WIDTH, self.HEIGHT))
@@ -39,9 +41,14 @@ class Life:
         pygame.draw.rect(
             win, color, (x, self.y - 6, last_bar_width, 4))
 
-        if self.NRG >= 3000:
-            pygame.draw.rect(
-            win, (0, 50, 255), (x, self.y - 6, second_bar_width, 4))
+        # if self.NRG >= 6000:
+        #     pygame.draw.rect(
+        #     win, (0, 50, 255), (x, self.y - 6, second_bar_width, 4))
+        
+        # if self.NRG >= 6000:
+        #     second_bar_width = 30
+        #     pygame.draw.rect(
+        #     win, (255, 100, 255), (x, self.y - 6, third_bar_width, 4))
                 
             
     #movement functions
