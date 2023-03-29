@@ -39,7 +39,7 @@ class Life:
         
         if self.NRG > 1500:
             color = (0, 255, 0)
-        elif self.NRG <= 1250 and self.NRG > 750:
+        elif self.NRG <= 1500 and self.NRG > 750:
             color = (255, 255, 0)
         elif self.NRG <= 750:
             color = (255, 50, 50)
