@@ -124,7 +124,7 @@ class GoL:
 
         while run:
             pygame.display.update()
-            clock.tick(60)
+            clock.tick(6000)
             raw_time = pygame.time.get_ticks()
             fps = clock.get_fps()
             duration = time.time() - start_time
@@ -145,7 +145,7 @@ class GoL:
                 self.game.draw(draw_score=True, draw1=True, draw2=True)
 
 
-            if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -1000 or game_info.score_2 <= -1000: 
+            if game_info.score_1 >= 100 or game_info.score_2 >= 100: 
 
                 self.calculate_fitness(duration)
                 break
