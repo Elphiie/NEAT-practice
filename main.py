@@ -124,7 +124,7 @@ class GoL:
 
         while run:
             pygame.display.update()
-            clock.tick(6000)
+            clock.tick(60)
             raw_time = pygame.time.get_ticks()
             fps = clock.get_fps()
             duration = time.time() - start_time
@@ -145,7 +145,7 @@ class GoL:
                 self.game.draw(draw_score=True, draw1=True, draw2=True)
 
 
-            if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -10 or game_info.score_2 <= -10: 
+            if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -1000 or game_info.score_2 <= -1000: 
 
                 self.calculate_fitness(duration)
                 break
@@ -268,9 +268,9 @@ def eval_genomes(genomes, config):
             force_quit = gol.train_ai(genome1, genome2, config, duration=time.time()-start_time, draw=True)
             if force_quit:
                 #saves an svg file vizualising the network for current genomes playing at the time of closing
-                visualize.draw_net(config, genome1, True, '1', node_names=node_names)
+                # visualize.draw_net(config, genome1, True, '1', node_names=node_names)
 
-                visualize.draw_net(config, genome2, True, '2', node_names=node_names)
+                # visualize.draw_net(config, genome2, True, '2', node_names=node_names)
                
                 quit()
 

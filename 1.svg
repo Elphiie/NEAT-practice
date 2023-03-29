@@ -11,80 +11,182 @@
 <!-- life pos y -->
 <g id="node1" class="node">
 <title>life pos y</title>
-<polygon fill="lightgray" stroke="black" points="51,-119.83 0,-119.83 0,-97.83 51,-97.83 51,-119.83"/>
-<text text-anchor="middle" x="25.5" y="-106.63" font-family="Times New Roman,serif" font-size="9.00">life pos y</text>
-</g>
-<!-- near wall down -->
-<g id="node2" class="node">
-<title>near wall down</title>
-<polygon fill="lightgray" stroke="black" points="140,-119.83 69,-119.83 69,-97.83 140,-97.83 140,-119.83"/>
-<text text-anchor="middle" x="104.5" y="-106.63" font-family="Times New Roman,serif" font-size="9.00">near wall down</text>
-</g>
-<!-- left -->
-<g id="node8" class="node">
-<title>left</title>
-<ellipse fill="lightblue" stroke="black" cx="104.5" cy="-23.33" rx="20.51" ry="20.51"/>
-<text text-anchor="middle" x="104.5" y="-21.13" font-family="Times New Roman,serif" font-size="9.00">left</text>
-</g>
-<!-- near wall down&#45;&gt;left -->
-<g id="edge1" class="edge">
-<title>near wall down&#45;&gt;left</title>
-<path fill="none" stroke="green" stroke-width="0.34" d="M104.5,-97.59C104.5,-86.94 104.5,-69.74 104.5,-54.69"/>
-<polygon fill="green" stroke="green" stroke-width="0.34" points="108,-54.75 104.5,-44.75 101,-54.75 108,-54.75"/>
-</g>
-<!-- food dist y -->
-<g id="node3" class="node">
-<title>food dist y</title>
-<polygon fill="lightgray" stroke="black" points="214.5,-119.83 158.5,-119.83 158.5,-97.83 214.5,-97.83 214.5,-119.83"/>
-<text text-anchor="middle" x="186.5" y="-106.63" font-family="Times New Roman,serif" font-size="9.00">food dist y</text>
-</g>
-<!-- right -->
-<g id="node9" class="node">
-<title>right</title>
-<ellipse fill="lightblue" stroke="black" cx="186.5" cy="-23.33" rx="23.17" ry="23.17"/>
-<text text-anchor="middle" x="186.5" y="-21.13" font-family="Times New Roman,serif" font-size="9.00">right</text>
-</g>
-<!-- food dist y&#45;&gt;right -->
-<g id="edge3" class="edge">
-<title>food dist y&#45;&gt;right</title>
-<path fill="none" stroke="red" stroke-width="0.36" d="M186.5,-97.59C186.5,-87.5 186.5,-71.54 186.5,-57.08"/>
-<polygon fill="red" stroke="red" stroke-width="0.36" points="190,-57.47 186.5,-47.47 183,-57.47 190,-57.47"/>
-</g>
-<!-- near wall up -->
-<g id="node4" class="node">
-<title>near wall up</title>
-<polygon fill="lightgray" stroke="black" points="294,-119.83 233,-119.83 233,-97.83 294,-97.83 294,-119.83"/>
-<text text-anchor="middle" x="263.5" y="-106.63" font-family="Times New Roman,serif" font-size="9.00">near wall up</text>
+<polygon fill="lightgray" stroke="black" points="249.5,-414.13 198.5,-414.13 198.5,-392.13 249.5,-392.13 249.5,-414.13"/>
+<text text-anchor="middle" x="224" y="-400.93" font-family="Times New Roman,serif" font-size="9.00">life pos y</text>
 </g>
 <!-- stop -->
 <g id="node5" class="node">
 <title>stop</title>
-<ellipse fill="lightblue" stroke="black" cx="335.5" cy="-108.83" rx="23.17" ry="23.17"/>
-<text text-anchor="middle" x="335.5" y="-106.63" font-family="Times New Roman,serif" font-size="9.00">stop</text>
+<ellipse fill="lightblue" stroke="black" cx="217" cy="-332.8" rx="23.17" ry="23.17"/>
+<text text-anchor="middle" x="217" y="-330.6" font-family="Times New Roman,serif" font-size="9.00">stop</text>
 </g>
-<!-- up -->
-<g id="node6" class="node">
-<title>up</title>
-<ellipse fill="lightblue" stroke="black" cx="395.5" cy="-108.83" rx="18.27" ry="18.27"/>
-<text text-anchor="middle" x="395.5" y="-106.63" font-family="Times New Roman,serif" font-size="9.00">up</text>
+<!-- life pos y&#45;&gt;stop -->
+<g id="edge14" class="edge">
+<title>life pos y&#45;&gt;stop</title>
+<path fill="none" stroke="green" stroke-width="0.31" d="M222.94,-391.75C222.24,-384.92 221.28,-375.56 220.34,-366.36"/>
+<polygon fill="green" stroke="green" stroke-width="0.31" points="223.84,-366.23 219.34,-356.64 216.88,-366.95 223.84,-366.23"/>
 </g>
-<!-- 18 -->
-<g id="node10" class="node">
-<title>18</title>
-<ellipse fill="white" stroke="black" cx="395.5" cy="-23.33" rx="18.27" ry="18.27"/>
-<text text-anchor="middle" x="395.5" y="-21.13" font-family="Times New Roman,serif" font-size="9.00">18</text>
+<!-- near wall down -->
+<g id="node2" class="node">
+<title>near wall down</title>
+<polygon fill="lightgray" stroke="black" points="180.5,-414.13 109.5,-414.13 109.5,-392.13 180.5,-392.13 180.5,-414.13"/>
+<text text-anchor="middle" x="145" y="-400.93" font-family="Times New Roman,serif" font-size="9.00">near wall down</text>
 </g>
-<!-- up&#45;&gt;18 -->
-<g id="edge2" class="edge">
-<title>up&#45;&gt;18</title>
-<path fill="none" stroke="green" stroke-width="0.12" d="M395.5,-90.12C395.5,-79.05 395.5,-64.56 395.5,-52"/>
-<polygon fill="green" stroke="green" stroke-width="0.12" points="399,-52.2 395.5,-42.2 392,-52.2 399,-52.2"/>
+<!-- near wall down&#45;&gt;stop -->
+<g id="edge4" class="edge">
+<title>near wall down&#45;&gt;stop</title>
+<path fill="none" stroke="red" stroke-width="0.6" d="M155.94,-391.75C165.68,-382.5 180.29,-368.64 192.78,-356.79"/>
+<polygon fill="red" stroke="red" stroke-width="0.6" points="195.1,-359.41 199.94,-349.98 190.28,-354.33 195.1,-359.41"/>
 </g>
 <!-- down -->
-<g id="node7" class="node">
+<g id="node11" class="node">
 <title>down</title>
-<ellipse fill="lightblue" stroke="black" cx="458.5" cy="-108.83" rx="26.33" ry="26.33"/>
-<text text-anchor="middle" x="458.5" y="-106.63" font-family="Times New Roman,serif" font-size="9.00">down</text>
+<ellipse fill="lightblue" stroke="black" cx="188" cy="-174.53" rx="26.33" ry="26.33"/>
+<text text-anchor="middle" x="188" y="-172.33" font-family="Times New Roman,serif" font-size="9.00">down</text>
+</g>
+<!-- near wall down&#45;&gt;down -->
+<g id="edge2" class="edge">
+<title>near wall down&#45;&gt;down</title>
+<path fill="none" stroke="red" stroke-width="0.19" stroke-dasharray="1,5" d="M146.96,-391.81C152.97,-360.15 171.32,-263.42 181.33,-210.69"/>
+<polygon fill="red" stroke="red" stroke-width="0.19" points="184.73,-211.53 183.16,-201.05 177.85,-210.23 184.73,-211.53"/>
+</g>
+<!-- 5 -->
+<g id="node14" class="node">
+<title>5</title>
+<ellipse fill="white" stroke="black" cx="87" cy="-14.85" rx="14.7" ry="14.7"/>
+<text text-anchor="middle" x="87" y="-12.65" font-family="Times New Roman,serif" font-size="9.00">5</text>
+</g>
+<!-- near wall down&#45;&gt;5 -->
+<g id="edge6" class="edge">
+<title>near wall down&#45;&gt;5</title>
+<path fill="none" stroke="red" stroke-width="0.32" d="M121.38,-391.71C80.29,-371.79 0,-324.14 0,-256.08 0,-256.08 0,-256.08 0,-173.53 0,-116.58 44.05,-60.84 69.46,-33.42"/>
+<polygon fill="red" stroke="red" stroke-width="0.32" points="71.97,-35.86 76.34,-26.21 66.91,-31.03 71.97,-35.86"/>
+</g>
+<!-- food dist y -->
+<g id="node3" class="node">
+<title>food dist y</title>
+<polygon fill="lightgray" stroke="black" points="324,-414.13 268,-414.13 268,-392.13 324,-392.13 324,-414.13"/>
+<text text-anchor="middle" x="296" y="-400.93" font-family="Times New Roman,serif" font-size="9.00">food dist y</text>
+</g>
+<!-- near wall up -->
+<g id="node4" class="node">
+<title>near wall up</title>
+<polygon fill="lightgray" stroke="black" points="143.5,-185.53 82.5,-185.53 82.5,-163.53 143.5,-163.53 143.5,-185.53"/>
+<text text-anchor="middle" x="113" y="-172.33" font-family="Times New Roman,serif" font-size="9.00">near wall up</text>
+</g>
+<!-- right -->
+<g id="node13" class="node">
+<title>right</title>
+<ellipse fill="lightblue" stroke="black" cx="138" cy="-89.03" rx="23.17" ry="23.17"/>
+<text text-anchor="middle" x="138" y="-86.83" font-family="Times New Roman,serif" font-size="9.00">right</text>
+</g>
+<!-- near wall up&#45;&gt;right -->
+<g id="edge5" class="edge">
+<title>near wall up&#45;&gt;right</title>
+<path fill="none" stroke="red" stroke-width="0.56" d="M116.07,-163.29C119.15,-152.99 124.07,-136.57 128.46,-121.88"/>
+<polygon fill="red" stroke="red" stroke-width="0.56" points="131.78,-122.99 131.3,-112.41 125.08,-120.99 131.78,-122.99"/>
+</g>
+<!-- near wall up&#45;&gt;5 -->
+<g id="edge11" class="edge">
+<title>near wall up&#45;&gt;5</title>
+<path fill="none" stroke="green" stroke-width="0.1" d="M111.29,-163.18C107.18,-138.22 96.62,-74.19 90.87,-39.32"/>
+<polygon fill="green" stroke="green" stroke-width="0.1" points="94.36,-38.97 89.28,-29.67 87.45,-40.11 94.36,-38.97"/>
+</g>
+<!-- food dist x -->
+<g id="node5" class="node">
+<title>food dist x</title>
+<polygon fill="lightgray" stroke="black" points="397.5,-414.13 342.5,-414.13 342.5,-392.13 397.5,-392.13 397.5,-414.13"/>
+<text text-anchor="middle" x="370" y="-400.93" font-family="Times New Roman,serif" font-size="9.00">food dist x</text>
+</g>
+<!-- near wall right -->
+<g id="node6" class="node">
+<title>near wall right</title>
+<polygon fill="lightgray" stroke="black" points="484,-414.13 416,-414.13 416,-392.13 484,-392.13 484,-414.13"/>
+<text text-anchor="middle" x="450" y="-400.93" font-family="Times New Roman,serif" font-size="9.00">near wall right</text>
+</g>
+<!-- left -->
+<g id="node12" class="node">
+<title>left</title>
+<ellipse fill="lightblue" stroke="black" cx="450" cy="-332.8" rx="20.51" ry="20.51"/>
+<text text-anchor="middle" x="450" y="-330.6" font-family="Times New Roman,serif" font-size="9.00">left</text>
+</g>
+<!-- near wall right&#45;&gt;left -->
+<g id="edge12" class="edge">
+<title>near wall right&#45;&gt;left</title>
+<path fill="none" stroke="red" stroke-width="0.26" d="M450,-391.75C450,-384.27 450,-373.77 450,-363.75"/>
+<polygon fill="red" stroke="red" stroke-width="0.26" points="453.5,-364.05 450,-354.05 446.5,-364.05 453.5,-364.05"/>
+</g>
+<!-- life pos x -->
+<g id="node7" class="node">
+<title>life pos x</title>
+<polygon fill="lightgray" stroke="black" points="123,-266.08 73,-266.08 73,-244.08 123,-244.08 123,-266.08"/>
+<text text-anchor="middle" x="98" y="-252.88" font-family="Times New Roman,serif" font-size="9.00">life pos x</text>
+</g>
+<!-- up -->
+<g id="node10" class="node">
+<title>up</title>
+<ellipse fill="lightblue" stroke="black" cx="46" cy="-174.53" rx="18.27" ry="18.27"/>
+<text text-anchor="middle" x="46" y="-172.33" font-family="Times New Roman,serif" font-size="9.00">up</text>
+</g>
+<!-- life pos x&#45;&gt;up -->
+<g id="edge3" class="edge">
+<title>life pos x&#45;&gt;up</title>
+<path fill="none" stroke="red" stroke-width="0.1" d="M91.2,-243.81C83.65,-232.41 71.23,-213.64 61.31,-198.66"/>
+<polygon fill="red" stroke="red" stroke-width="0.1" points="64.34,-196.9 55.91,-190.49 58.51,-200.76 64.34,-196.9"/>
+</g>
+<!-- life pos x&#45;&gt;down -->
+<g id="edge1" class="edge">
+<title>life pos x&#45;&gt;down</title>
+<path fill="none" stroke="red" stroke-width="0.14" stroke-dasharray="1,5" d="M109.77,-243.81C122.66,-232.56 143.77,-214.13 160.82,-199.25"/>
+<polygon fill="red" stroke="red" stroke-width="0.14" points="162.93,-202.06 168.16,-192.84 158.33,-196.78 162.93,-202.06"/>
+</g>
+<!-- near wall left -->
+<g id="node8" class="node">
+<title>near wall left</title>
+<polygon fill="lightgray" stroke="black" points="565.5,-414.13 502.5,-414.13 502.5,-392.13 565.5,-392.13 565.5,-414.13"/>
+<text text-anchor="middle" x="534" y="-400.93" font-family="Times New Roman,serif" font-size="9.00">near wall left</text>
+</g>
+<!-- 26 -->
+<g id="node16" class="node">
+<title>26</title>
+<ellipse fill="white" stroke="black" cx="217" cy="-255.08" rx="18.27" ry="18.27"/>
+<text text-anchor="middle" x="217" y="-252.88" font-family="Times New Roman,serif" font-size="9.00">26</text>
+</g>
+<!-- stop&#45;&gt;26 -->
+<g id="edge10" class="edge">
+<title>stop&#45;&gt;26</title>
+<path fill="none" stroke="red" stroke-width="0.37" d="M217,-309.49C217,-301.48 217,-292.35 217,-283.93"/>
+<polygon fill="red" stroke="red" stroke-width="0.37" points="220.5,-283.99 217,-273.99 213.5,-283.99 220.5,-283.99"/>
+</g>
+<!-- right&#45;&gt;5 -->
+<g id="edge8" class="edge">
+<title>right&#45;&gt;5</title>
+<path fill="none" stroke="red" stroke-width="0.13" d="M124.87,-69.44C117.49,-59 108.29,-45.98 100.8,-35.38"/>
+<polygon fill="red" stroke="red" stroke-width="0.13" points="103.74,-33.47 95.11,-27.33 98.02,-37.51 103.74,-33.47"/>
+</g>
+<!-- 110 -->
+<g id="node15" class="node">
+<title>110</title>
+<ellipse fill="white" stroke="black" cx="253" cy="-174.53" rx="21.43" ry="21.43"/>
+<text text-anchor="middle" x="253" y="-172.33" font-family="Times New Roman,serif" font-size="9.00">110</text>
+</g>
+<!-- 110&#45;&gt;right -->
+<g id="edge13" class="edge">
+<title>110&#45;&gt;right</title>
+<path fill="none" stroke="green" stroke-width="0.35" d="M237.04,-159.66C232.57,-155.9 227.66,-151.9 223,-148.37 204.31,-134.17 182.46,-119.21 165.6,-107.99"/>
+<polygon fill="green" stroke="green" stroke-width="0.35" points="167.99,-105.38 157.72,-102.79 164.13,-111.22 167.99,-105.38"/>
+</g>
+<!-- 26&#45;&gt;down -->
+<g id="edge7" class="edge">
+<title>26&#45;&gt;down</title>
+<path fill="none" stroke="green" stroke-width="0.35" stroke-dasharray="1,5" d="M210.85,-237.42C207.84,-229.27 204.1,-219.14 200.52,-209.45"/>
+<polygon fill="green" stroke="green" stroke-width="0.35" points="203.82,-208.29 197.08,-200.12 197.26,-210.71 203.82,-208.29"/>
+</g>
+<!-- 26&#45;&gt;110 -->
+<g id="edge9" class="edge">
+<title>26&#45;&gt;110</title>
+<path fill="none" stroke="red" stroke-width="0.28" d="M224.29,-238.18C228.81,-228.31 234.76,-215.33 240.07,-203.75"/>
+<polygon fill="red" stroke="red" stroke-width="0.28" points="243.17,-205.39 244.15,-194.84 236.8,-202.47 243.17,-205.39"/>
 </g>
 </g>
 </svg>
