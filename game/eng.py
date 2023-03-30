@@ -50,11 +50,18 @@ class Game:
         self.rounds = 0
         self.window = window
         
-    def _draw_score(self, **kwargs):
-        left_score_text = self.SCORE_FONT.render(
-            f"Blue Score: {round(self.score_1)}", True, self.BLUE)
-        right_score_text = self.SCORE_FONT.render(
-            f"Green Score: {round(self.score_2)}", True, self.GREEN)
+    def _draw_score(self, draw1, draw2, **kwargs):
+        if draw1:
+            left_score_text = self.SCORE_FONT.render(
+                f"Blue Score: {round(self.score_1)}", True, self.BLUE)
+            self.window.blit(left_score_text, (self.window_width //
+                                           4 - left_score_text.get_width()//2, 20))
+        if draw2:
+            right_score_text = self.SCORE_FONT.render(
+                f"Green Score: {round(self.score_2)}", True, self.GREEN)
+            self.window.blit(right_score_text, (self.window_width * (3/4) -
+                                            right_score_text.get_width()//2, 20))
+            
         time_text = self.INF_FONT.render(
             f"Time: {self.dur}", True, self.YELLOW)
         tick_text = self.INF_FONT.render(
@@ -63,10 +70,8 @@ class Game:
             f"FPS: {self.fps}", True, self.YELLOW)
 
             
-        self.window.blit(left_score_text, (self.window_width //
-                                           4 - left_score_text.get_width()//2, 20))
-        self.window.blit(right_score_text, (self.window_width * (3/4) -
-                                            right_score_text.get_width()//2, 20))
+        
+        
         self.window.blit(time_text, (self.window_width * (1/18) -
                                             time_text.get_width()//2, 15))
         self.window.blit(tick_text, (self.window_width * (1/18) -
@@ -74,13 +79,12 @@ class Game:
         self.window.blit(fps_text, (self.window_width * (1/18) -
                                             fps_text.get_width()//2, 85,))
 
-    def _handle_collision(self):
-          
+    def _handle_collision(self):  
         for life in [self.life_1]:
             d = math.dist((life.x, life.y), (self.food.x, self.food.y))
 
             
-            if d <= Life.WIDTH + (self.food.RADIUS * 1.3):
+            if d <= Life.WIDTH + self.food.RADIUS:
                 self.score_1 += 1
                 life.NRG += 2200
                 self.food.reset()
@@ -91,26 +95,28 @@ class Game:
             d = math.dist((life.x, life.y), (self.food.x, self.food.y))
 
             
-            if d <= Life.WIDTH + (self.food.RADIUS * 1.3):
+            if d <= Life.WIDTH + self.food.RADIUS:
                 self.score_2 += 1
                 life.NRG += 2200
                 self.food.reset()
             
 
-    def draw(self, draw_score=True):
+    def draw(self, draw_score=True, draw1=False, draw2=False):
         self.window.fill(self.BLACK)
         if draw_score:
-            self._draw_score()
-
-        self.life_1.draw(self.window)
-        self.life_2.draw(self.window)
+            if draw1:
+                self.life_1.draw(self.window)
+                self._draw_score(draw1, draw2)
+            if draw2:
+                self.life_2.draw(self.window)
+                self._draw_score(draw1, draw2)
         self.food.draw(self.window)
         
 
 
     def move_life(self, left=True, up=True, right=True, down=True, cum=True):
         # dist_life = math.dist((self.life_1.x, self.life_1.y), (self.life_2.x, self.life_2.y))
-        if cum:
+        if cum and self.life_1.NRG > 3:
             if up:
                 if up and self.life_1.y - Life.HEIGHT <= Life.HEIGHT:
                     self.score_1 -= 1
@@ -139,11 +145,11 @@ class Game:
                 self.score_1 -= 1
                 self.life_1.stop(False, False, False, False)
 
-            if self.life_1.NRG < 2:
-                self.score_1 -= 1
-                return False
+        if self.life_1.NRG <= 3:
+            self.score_1 -= 1
+            return False
 
-        else:
+        elif not cum and self.life_2.NRG > 3:
             if up:
                 if up and self.life_2.y - Life.HEIGHT <= Life.HEIGHT:
                     self.score_2 -= 1
@@ -172,11 +178,12 @@ class Game:
                 self.score_2 -= 1
                 self.life_2.stop(False, False, False, False)
 
-            if self.life_2.NRG < 2:
-                self.score_2 -= 1
-                return False    
+        if self.life_2.NRG <= 3:
+            self.score_2 -= 1
+            return False    
 
-        
+        # else:
+        #     return False
 
 
         return True
