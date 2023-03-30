@@ -325,9 +325,6 @@ def start_menu():
     width = 150
     height = 50
     
-
-   
-    
     while run:
         color1 = (50, 50, 50)
         color2 = (50, 50, 50)
