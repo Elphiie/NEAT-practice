@@ -33,7 +33,7 @@ class GoL:
 
         while run:
             pygame.display.update()
-            clock.tick(6000)
+            clock.tick(600)
             duration = time.time() - start_time
             self.game.dur = round(duration, 2)
             
@@ -47,40 +47,36 @@ class GoL:
                 self.game.draw(draw_score=True, draw1=True, draw2=False)         
 
             
-            near_wall_up = False
-            near_wall_down = False
-            near_wall_left = False
-            near_wall_rigth = False
+            # near_wall_up = False
+            # near_wall_down = False
+            # near_wall_left = False
+            # near_wall_rigth = False
 
-            # checks if our squares is close to the window border            
-            if window_height + life.y <= window_height + 10:
-                near_wall_up = True
+            # # checks if our squares is close to the window border            
+            # if window_height + life.y <= window_height + 10:
+            #     near_wall_up = True
                 
-            elif life.y + life.HEIGHT + 10 >= window_height:
-                near_wall_down = True
+            # elif life.y + life.HEIGHT + 10 >= window_height:
+            #     near_wall_down = True
 
-            elif window_width + life.x <= window_width + 10:
-                near_wall_left = True 
+            # elif window_width + life.x <= window_width + 10:
+            #     near_wall_left = True 
 
-            elif life.x + life.WIDTH + 10 >= window_width:
-                near_wall_rigth = True
+            # elif life.x + life.WIDTH + 10 >= window_width:
+            #     near_wall_rigth = True
 
-            else:
-                near_wall_up = False
-                near_wall_down = False
-                near_wall_left = False
-                near_wall_rigth = False
+            # else:
+            #     near_wall_up = False
+            #     near_wall_down = False
+            #     near_wall_left = False
+            #     near_wall_rigth = False
 
 
             output = net.activate(
                 (
-                near_wall_left,
                 life.x,
-                near_wall_rigth,
                 life.x - food.x,
-                near_wall_up,
                 life.y - food.y,
-                near_wall_down, 
                 life.y,              
                 )
             )
@@ -90,20 +86,23 @@ class GoL:
             valid = True
             if decision == 0:  # Don't move
                 valid = self.game.move_life(False, False, False, False, cum=True)
-                life.NRG -= 2
+                life.NRG -= 5
                 # we want to discourage this
             elif decision == 1:  # Move up
                 valid = self.game.move_life(down=False, up=True, right=False, left=False, cum=True)
-                life.NRG -= 3
+                life.NRG -= 10
             elif decision == 2:  # Move down
                 valid = self.game.move_life(up=False, right=False, left=False, down=True, cum=True)
-                life.NRG -= 3
+                life.NRG -= 10
             elif decision == 3:  # Move left
                 valid = self.game.move_life(left=True, up=False, down=False, right=False, cum=True)
-                life.NRG -= 3
+                life.NRG -= 10
             elif decision == 4:  # Move right
                 valid = self.game.move_life(up=False, down=False, right=True, left=False, cum=True)
-                life.NRG -= 3
+                life.NRG -= 10
+
+            if life.NRG <= 0:
+                valid = False
             if not valid:
                 self.game.move_life(False, False, False, False, cum=True) 
 
@@ -146,7 +145,10 @@ class GoL:
 
 
             if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -10 or game_info.score_2 <= -10: 
-
+                if game_info.score_1 >= game_info.score_2:
+                    genome1.fitness += 50
+                if game_info.score_2 >= game_info.score_1:
+                    genome2.fitness += 50
                 self.calculate_fitness(duration)
                 break
                           
@@ -160,29 +162,29 @@ class GoL:
 
         for (genome, net, life, cum) in players:
             dist_food = math.dist((life.x, life.y), (self.food.x, self.food.y))
-            near_wall_up = False
-            near_wall_down = False
-            near_wall_left = False
-            near_wall_rigth = False
+            # near_wall_up = False
+            # near_wall_down = False
+            # near_wall_left = False
+            # near_wall_rigth = False
 
-            # checks if our squares is close to the window border            
-            if window_height + life.y <= window_height + 10:
-                near_wall_up = True
+            # # checks if our squares is close to the window border            
+            # if window_height + life.y <= window_height + 10:
+            #     near_wall_up = True
                 
-            elif life.y + life.HEIGHT + 10 >= window_height:
-                near_wall_down = True
+            # elif life.y + life.HEIGHT + 10 >= window_height:
+            #     near_wall_down = True
 
-            elif window_width + life.x <= window_width + 10:
-                near_wall_left = True 
+            # elif window_width + life.x <= window_width + 10:
+            #     near_wall_left = True 
 
-            elif life.x + life.WIDTH + 10 >= window_width:
-                near_wall_rigth = True
+            # elif life.x + life.WIDTH + 10 >= window_width:
+            #     near_wall_rigth = True
 
-            else:
-                near_wall_up = False
-                near_wall_down = False
-                near_wall_left = False
-                near_wall_rigth = False
+            # else:
+            #     near_wall_up = False
+            #     near_wall_down = False
+            #     near_wall_left = False
+            #     near_wall_rigth = False
 
 
             output = net.activate(
@@ -200,7 +202,7 @@ class GoL:
             if decision == 0:  # Don't move
                 valid = self.game.move_life(False, False, False, False, cum=cum)
                 genome.fitness -= 0.1
-                life.NRG -= 2
+                life.NRG -= 3
                   # we want to discourage this
             elif decision == 1:  # Move up
                 valid = self.game.move_life(down=False, up=True, right=False, left=False, cum=cum)
@@ -215,23 +217,23 @@ class GoL:
                 valid = self.game.move_life(up=False, down=False, right=True, left=False, cum=cum)
                 life.NRG -= 3
             if not valid:  # If the movement makes the square go off the screen punish the AI
+                genome.fitness -= 5
+
+
+            if life.NRG <= 3: # If the square moves too much punish the AI
                 genome.fitness -= 1
-
-
-            if life.NRG <= 0: # If the square moves too much punish the
-                genome.fitness -= 1
-
-            if dist_food <= life.WIDTH + (self.food.RADIUS * 2):
-                genome.fitness += 0.3
 
             if dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
-                genome.fitness += 9
+                genome.fitness += 0.3
+
+            if dist_food <= life.WIDTH + self.food.RADIUS:
+                genome.fitness += 10
 
 
 
     def calculate_fitness(self, duration):
-        self.genome1.fitness += duration
-        self.genome2.fitness += duration
+        self.genome1.fitness += duration + self.score_1
+        self.genome2.fitness += duration + self.score_2
 
 
 
@@ -277,13 +279,13 @@ def eval_genomes(genomes, config):
 
 
 def run_neat(config):
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-30')
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-38')
     # p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
-    p.add_reporter(neat.Checkpointer(2))
-    winner = p.run(eval_genomes, 10)
+    p.add_reporter(neat.Checkpointer(1))
+    winner = p.run(eval_genomes, 15)
     with open("best.pickle", "wb") as f:
         pickle.dump(winner, f)
     
@@ -313,13 +315,27 @@ def run_neat(config):
 def test_winner(config):
     with open("best.pickle", "rb") as f:
         winner = pickle.load(f)
-    winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
 
-    width, height = 1280, 720
+    winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
+    width, height = 1920, 1018
     win = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Let there be Life")
     gol = GoL(win, width, height)
     gol.best_net(winner_net, draw=True)
+
+    node_names = {               
+                -4: 'life pos x',
+                -3: 'food dist x',                              
+                -2: 'food dist y',
+                -1: 'life pos y',
+                0: 'stop',
+                1: 'up',
+                2: 'down',
+                3: 'left',
+                4: 'right'
+                }
+    
+    # visualize.draw_net(config, winner, True, node_names=node_names)
 
 if __name__ == '__main__':
     local_dir = os.path.dirname(__file__)
