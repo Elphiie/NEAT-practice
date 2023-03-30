@@ -1,5 +1,6 @@
 import math
 import os
+import sys
 import pickle
 import time
 
@@ -123,7 +124,7 @@ class GoL:
 
         while run:
             pygame.display.update()
-            clock.tick(6000)
+            clock.tick(8000)
             raw_time = pygame.time.get_ticks()
             fps = clock.get_fps()
             duration = time.time() - start_time
@@ -240,10 +241,9 @@ class GoL:
 
 def eval_genomes(genomes, config):
     start_time = time.time()
-    width, height = 1280, 720
-    win = pygame.display.set_mode((width, height))
-    pygame.display.set_caption("Ai-test")
-
+    win_width, win_height = 1280, 720
+    win = pygame.display.set_mode((win_width, win_height))
+   
     node_names = {
                 -8:'near wall left',                
                 -7: 'life pos x',
@@ -265,7 +265,7 @@ def eval_genomes(genomes, config):
         genome1.fitness = 0
         for genome_id2, genome2 in genomes[min(i+1, len(genomes) - 1):]:
             genome2.fitness = 0 if genome2.fitness == None else genome2.fitness
-            gol = GoL(win, width, height)
+            gol = GoL(win, win_width, win_height)
 
             force_quit = gol.train_ai(genome1, genome2, config, duration=time.time()-start_time, draw=True)
             if force_quit:
@@ -323,6 +323,49 @@ def test_winner(config):
     gol = GoL(win, width, height)
     gol.best_net(winner_net, draw=True)
 
+def start_menu():
+    win_width, win_height = 1280, 720
+    win = pygame.display.set_mode((win_width, win_height))
+    pygame.display.set_caption("Ai-test")
+    run = True
+    width = 150
+    height = 50
+    
+    while run:
+        color1 = (50, 50, 50)
+        color2 = (50, 50, 50)
+        mouse = pygame.mouse.get_pos()
+
+        if 450 < mouse[0] < 450 + width and 300 < mouse[1] < 300 + height:
+            color1 = (100, 100, 100)
+        if 650 < mouse[0] < 650 + width and 300 < mouse[1] < 300 + height:
+            color2 = (100, 100, 100)
+
+        pygame.draw.rect(win, color1, (450, 300, width, height))
+        pygame.draw.rect(win, color2, (650, 300, width, height))
+
+        font = pygame.font.SysFont('comicsans', 20)
+        text_train = font.render('Train AI', True, (255, 255, 255))
+        text_test = font.render('Test AI', True, (255, 255, 255))
+        win.blit(text_train, (485, 310))
+        win.blit(text_test, (685, 310))
+        
+        for ev in pygame.event.get():
+
+            if ev.type == pygame.MOUSEBUTTONDOWN:
+                
+                if 450 < mouse[0] < 450 + width and 300 < mouse[1] < 300 + height:
+                    run_neat(config)
+                    quit()
+                elif 650 < mouse[0] < 650 + width and 300 < mouse[1] < 300 + height:
+                    test_winner(config)
+                    quit()
+
+                
+        pygame.display.update()
+
+                
+
     node_names = {               
                 -4: 'life pos x',
                 -3: 'food dist x',                              
@@ -345,6 +388,4 @@ if __name__ == '__main__':
                          config_path)
 
 
-
-    run_neat(config)
-    # test_winner(config)
+    start_menu()
