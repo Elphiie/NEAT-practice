@@ -362,23 +362,7 @@ def start_menu():
                     quit()
 
                 
-        pygame.display.update()
-
-                
-
-    node_names = {               
-                -4: 'life pos x',
-                -3: 'food dist x',                              
-                -2: 'food dist y',
-                -1: 'life pos y',
-                0: 'stop',
-                1: 'up',
-                2: 'down',
-                3: 'left',
-                4: 'right'
-                }
-    
-    # visualize.draw_net(config, winner, True, node_names=node_names)
+        pygame.display.update()                
 
 if __name__ == '__main__':
     local_dir = os.path.dirname(__file__)
