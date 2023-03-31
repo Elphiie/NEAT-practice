@@ -147,9 +147,9 @@ class GoL:
 
             if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -10 or game_info.score_2 <= -10: 
                 if game_info.score_1 >= game_info.score_2:
-                    genome1.fitness += 5
+                    genome1.fitness += 15
                 if game_info.score_2 >= game_info.score_1:
-                    genome2.fitness += 5
+                    genome2.fitness += 15
                 self.calculate_fitness(duration)
                 break
                           
@@ -225,7 +225,7 @@ class GoL:
                 genome.fitness -= 1
 
             if dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
-                genome.fitness += 0.3
+                genome.fitness += 0.5
 
             if dist_food <= life.WIDTH + self.food.RADIUS:
                 genome.fitness += 10
@@ -279,13 +279,13 @@ def eval_genomes(genomes, config):
 
 
 def run_neat(config):
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-49')
-    # p = neat.Population(config)
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-49')
+    p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(1))
-    winner = p.run(eval_genomes, 50)
+    winner = p.run(eval_genomes, 100)
     with open("best.pickle", "wb") as f:
         pickle.dump(winner, f)
     
