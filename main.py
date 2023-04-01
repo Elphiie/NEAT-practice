@@ -34,7 +34,7 @@ class GoL:
 
         while run:
             pygame.display.update()
-            clock.tick(600)
+            clock.tick(60)
             duration = time.time() - start_time
             self.game.dur = round(duration, 2)
             
@@ -124,7 +124,7 @@ class GoL:
 
         while run:
             pygame.display.update()
-            clock.tick(8000)
+            clock.tick(6000)
             raw_time = pygame.time.get_ticks()
             fps = clock.get_fps()
             duration = time.time() - start_time
@@ -279,13 +279,13 @@ def eval_genomes(genomes, config):
 
 
 def run_neat(config):
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-49')
-    p = neat.Population(config)
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-32')
+    # p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(1))
-    winner = p.run(eval_genomes, 100)
+    winner = p.run(eval_genomes, 20)
     with open("best.pickle", "wb") as f:
         pickle.dump(winner, f)
     

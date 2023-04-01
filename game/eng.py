@@ -174,6 +174,7 @@ class Game:
                     return False
                 self.life_2.move_right(right)
 
+            
             if not up and not down and not left and not right:
                 self.score_2 -= 1
                 self.life_2.stop(False, False, False, False)
@@ -182,8 +183,7 @@ class Game:
             self.score_2 -= 1
             return False    
 
-        # else:
-        #     return False
+
 
 
         return True

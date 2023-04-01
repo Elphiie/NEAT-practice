@@ -9,8 +9,9 @@ digraph {
 	down [fillcolor=lightblue style=filled]
 	left [fillcolor=lightblue style=filled]
 	right [fillcolor=lightblue style=filled]
-	35 [fillcolor=white style=filled]
-	"food dist x" -> up [color=red penwidth=0.330159440442682 style=dotted]
-	35 -> right [color=red penwidth=0.4138499317315609 style=solid]
-	"food dist x" -> down [color=red penwidth=0.38797875694848627 style=solid]
+	"food dist y" -> right [color=green penwidth=0.2187555096392042 style=dotted]
+	"food dist x" -> right [color=green penwidth=0.35755143010553414 style=solid]
+	"life pos y" -> left [color=green penwidth=0.33326390943945583 style=solid]
+	"life pos y" -> up [color=red penwidth=0.19089045852697756 style=solid]
+	"life pos y" -> down [color=red penwidth=0.2941754253105987 style=solid]
 }
