@@ -47,31 +47,6 @@ class GoL:
             if draw:
                 self.game.draw(draw_score=True, draw1=True, draw2=False)         
 
-            
-            # near_wall_up = False
-            # near_wall_down = False
-            # near_wall_left = False
-            # near_wall_rigth = False
-
-            # # checks if our squares is close to the window border            
-            # if window_height + life.y <= window_height + 10:
-            #     near_wall_up = True
-                
-            # elif life.y + life.HEIGHT + 10 >= window_height:
-            #     near_wall_down = True
-
-            # elif window_width + life.x <= window_width + 10:
-            #     near_wall_left = True 
-
-            # elif life.x + life.WIDTH + 10 >= window_width:
-            #     near_wall_rigth = True
-
-            # else:
-            #     near_wall_up = False
-            #     near_wall_down = False
-            #     near_wall_left = False
-            #     near_wall_rigth = False
-
 
             output = net.activate(
                 (
@@ -163,30 +138,6 @@ class GoL:
 
         for (genome, net, life, cum) in players:
             dist_food = math.dist((life.x, life.y), (self.food.x, self.food.y))
-            # near_wall_up = False
-            # near_wall_down = False
-            # near_wall_left = False
-            # near_wall_rigth = False
-
-            # # checks if our squares is close to the window border            
-            # if window_height + life.y <= window_height + 10:
-            #     near_wall_up = True
-                
-            # elif life.y + life.HEIGHT + 10 >= window_height:
-            #     near_wall_down = True
-
-            # elif window_width + life.x <= window_width + 10:
-            #     near_wall_left = True 
-
-            # elif life.x + life.WIDTH + 10 >= window_width:
-            #     near_wall_rigth = True
-
-            # else:
-            #     near_wall_up = False
-            #     near_wall_down = False
-            #     near_wall_left = False
-            #     near_wall_rigth = False
-
 
             output = net.activate(
                 (                
