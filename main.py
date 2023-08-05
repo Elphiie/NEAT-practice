@@ -45,32 +45,7 @@ class GoL:
                     break
 
             if draw:
-                self.game.draw(draw_score=True, draw1=True, draw2=False)         
-
-            
-            # near_wall_up = False
-            # near_wall_down = False
-            # near_wall_left = False
-            # near_wall_rigth = False
-
-            # # checks if our squares is close to the window border            
-            # if window_height + life.y <= window_height + 10:
-            #     near_wall_up = True
-                
-            # elif life.y + life.HEIGHT + 10 >= window_height:
-            #     near_wall_down = True
-
-            # elif window_width + life.x <= window_width + 10:
-            #     near_wall_left = True 
-
-            # elif life.x + life.WIDTH + 10 >= window_width:
-            #     near_wall_rigth = True
-
-            # else:
-            #     near_wall_up = False
-            #     near_wall_down = False
-            #     near_wall_left = False
-            #     near_wall_rigth = False
+                self.game.draw(draw_score=True, draw1=True, draw2=False)
 
 
             output = net.activate(
@@ -233,8 +208,8 @@ class GoL:
 
 
     def calculate_fitness(self, duration):
-        self.genome1.fitness += duration + self.score_1
-        self.genome2.fitness += duration + self.score_2
+        self.genome1.fitness += duration
+        self.genome2.fitness += duration
 
 
 
@@ -279,13 +254,13 @@ def eval_genomes(genomes, config):
 
 
 def run_neat(config):
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-49')
-    p = neat.Population(config)
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-68-bak')
+    # p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(1))
-    winner = p.run(eval_genomes, 10)
+    winner = p.run(eval_genomes, 50)
     with open("best.pickle", "wb") as f:
         pickle.dump(winner, f)
     
