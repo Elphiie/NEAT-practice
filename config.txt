@@ -1,27 +1,27 @@
 [NEAT]
 fitness_criterion     = max
 fitness_threshold     = 15000
-pop_size              = 100
+pop_size              = 50
 reset_on_extinction   = True
 
 [DefaultStagnation]
 species_fitness_func = max
-max_stagnation       = 15
+max_stagnation       = 20
 species_elitism      = 0
 
 [DefaultReproduction]
-elitism            = 1
+elitism            = 2
 survival_threshold = 0.2
 
 [DefaultGenome]
 # node activation options
-activation_default      = relu
-activation_mutate_rate  = 1.0
-activation_options      = relu
+activation_default      = random
+activation_mutate_rate  = 0.02
+activation_options      = relu gauss clamped sigmoid tanh
 
 # node aggregation options
 aggregation_default     = sum
-aggregation_mutate_rate = 0.01
+aggregation_mutate_rate = 0.5
 aggregation_options     = sum
 
 # node bias options
@@ -29,24 +29,24 @@ bias_init_mean          = 3.0
 bias_init_stdev         = 1.0
 bias_max_value          = 30.0
 bias_min_value          = -30.0
-bias_mutate_power       = 0.5
-bias_mutate_rate        = 0.7
-bias_replace_rate       = 0.1
+bias_mutate_power       = 0.4
+bias_mutate_rate        = 0.2
+bias_replace_rate       = 0.05
 
 # genome compatibility options
 compatibility_disjoint_coefficient = 1.5
-compatibility_weight_coefficient   = 0.55
+compatibility_weight_coefficient   = 0.5
 
 # connection add/remove rates
-conn_add_prob           = 0.6
-conn_delete_prob        = 0.4
+conn_add_prob           = 0.5
+conn_delete_prob        = 0.5
 
 # connection enable options
 enabled_default         = True
 enabled_mutate_rate     = 0.01
 
 feed_forward            = True
-initial_connection      = partial_direct 0.3
+initial_connection      = full_direct
 
 # node add/remove rates
 node_add_prob           = 0.05
@@ -54,7 +54,7 @@ node_delete_prob        = 0.05
 
 # network parameters
 num_hidden              = 0
-num_inputs              = 4
+num_inputs              = 2
 num_outputs             = 5
 
 # node response options

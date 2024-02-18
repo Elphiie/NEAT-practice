@@ -54,13 +54,11 @@ class Game:
         if draw1:
             left_score_text = self.SCORE_FONT.render(
                 f"Blue Score: {round(self.score_1)}", True, self.BLUE)
-            self.window.blit(left_score_text, (self.window_width //
-                                           4 - left_score_text.get_width()//2, 20))
+            self.window.blit(left_score_text, (self.window_width //4 - left_score_text.get_width()//2, 20))
         if draw2:
             right_score_text = self.SCORE_FONT.render(
                 f"Green Score: {round(self.score_2)}", True, self.GREEN)
-            self.window.blit(right_score_text, (self.window_width * (3/4) -
-                                            right_score_text.get_width()//2, 20))
+            self.window.blit(right_score_text, (self.window_width * (3/4) - right_score_text.get_width()//2, 20))
             
         time_text = self.INF_FONT.render(
             f"Time: {self.dur}", True, self.YELLOW)
@@ -86,8 +84,7 @@ class Game:
             
             if d <= Life.WIDTH + self.food.RADIUS:
                 self.score_1 += 1
-                life.NRG += 2200
-                self.food.reset()
+                life.NRG += 1200
 
 
 
@@ -97,8 +94,7 @@ class Game:
             
             if d <= Life.WIDTH + self.food.RADIUS:
                 self.score_2 += 1
-                life.NRG += 2200
-                self.food.reset()
+                life.NRG += 1200
             
 
     def draw(self, draw_score=True, draw1=False, draw2=False):

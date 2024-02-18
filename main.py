@@ -47,13 +47,12 @@ class GoL:
             if draw:
                 self.game.draw(draw_score=True, draw1=True, draw2=False)
 
+            dist_food = math.dist((life.x, life.y), (self.food.x, self.food.y))
 
             output = net.activate(
                 (
-                life.x,
                 life.x - food.x,
-                life.y - food.y,
-                life.y,              
+                life.y - food.y,         
                 )
             )
 
@@ -80,7 +79,11 @@ class GoL:
             if life.NRG <= 0:
                 valid = False
             if not valid:
-                self.game.move_life(False, False, False, False, cum=True) 
+                self.game.move_life(False, False, False, False, cum=True)
+
+            if dist_food <= life.WIDTH + self.food.RADIUS:
+                food.reset()
+             
 
             self.game.loop()
 
@@ -120,12 +123,12 @@ class GoL:
                 self.game.draw(draw_score=True, draw1=True, draw2=True)
 
 
-            if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -10 or game_info.score_2 <= -10: 
+            if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -100 or game_info.score_2 <= -100: 
                 if game_info.score_1 >= game_info.score_2:
                     genome1.fitness += 15
                 if game_info.score_2 >= game_info.score_1:
                     genome2.fitness += 15
-                self.calculate_fitness(duration)
+                self.calculate_fitness(game_info.score_1, game_info.score_2)
                 break
                           
         return False
@@ -140,11 +143,9 @@ class GoL:
             dist_food = math.dist((life.x, life.y), (self.food.x, self.food.y))
 
             output = net.activate(
-                (                
-                life.x,
+                (                 
                 life.x - food.x,
-                life.y - food.y,
-                life.y,              
+                life.y - food.y,          
                 )
             )
 
@@ -175,17 +176,18 @@ class GoL:
             if life.NRG <= 3: # If the square moves too much punish the AI
                 genome.fitness -= 1
 
-            if dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
-                genome.fitness += 0.5
+            # if dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
+            #     genome.fitness += 0.5
 
             if dist_food <= life.WIDTH + self.food.RADIUS:
-                genome.fitness += 10
+                genome.fitness += 5
+                food.reset()
 
 
 
-    def calculate_fitness(self, duration):
-        self.genome1.fitness += duration
-        self.genome2.fitness += duration
+    def calculate_fitness(self, score1, score2):
+        self.genome1.fitness
+        self.genome2.fitness
 
 
 
@@ -195,15 +197,9 @@ def eval_genomes(genomes, config):
     win_width, win_height = 1280, 720
     win = pygame.display.set_mode((win_width, win_height))
    
-    node_names = {
-                -8:'near wall left',                
-                -7: 'life pos x',
-                -6: 'near wall right',
-                -5: 'food dist x',
-                -4: 'near wall up',                               
-                -3: 'food dist y',
-                -2: 'near wall down',
-                -1: 'life pos y',
+    node_names = {               
+                -2: 'food dist x',                          
+                -1: 'food dist y',
                 0: 'stop',
                 1: 'up',
                 2: 'down',
@@ -221,22 +217,22 @@ def eval_genomes(genomes, config):
             force_quit = gol.train_ai(genome1, genome2, config, duration=time.time()-start_time, draw=True)
             if force_quit:
                 #saves an svg file vizualising the network for current genomes playing at the time of closing
-                # visualize.draw_net(config, genome1, True, '1', node_names=node_names)
+                visualize.draw_net(config, genome1, True, '1', node_names=node_names)
 
-                # visualize.draw_net(config, genome2, True, '2', node_names=node_names)
+                visualize.draw_net(config, genome2, True, '2', node_names=node_names)
                
                 quit()
 
 
 
 def run_neat(config):
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-68-bak')
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-9')
     # p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(1))
-    winner = p.run(eval_genomes, 50)
+    winner = p.run(eval_genomes, 100)
     with open("best.pickle", "wb") as f:
         pickle.dump(winner, f)
     
@@ -245,16 +241,14 @@ def run_neat(config):
 
 
     node_names = {               
-                -4: 'life pos x',
-                -3: 'food dist x',                              
-                -2: 'food dist y',
-                -1: 'life pos y',
-                0: 'stop',
-                1: 'up',
-                2: 'down',
-                3: 'left',
-                4: 'right'
-                }
+            -2: 'food dist x',                          
+            -1: 'food dist y',
+            0: 'stop',
+            1: 'up',
+            2: 'down',
+            3: 'left',
+            4: 'right'
+            }
     
     visualize.draw_net(config, winner, True, node_names=node_names)
 
@@ -273,6 +267,18 @@ def test_winner(config):
     pygame.display.set_caption("Let there be Life")
     gol = GoL(win, width, height)
     gol.best_net(winner_net, draw=True)
+
+    node_names = {               
+            -2: 'food dist x',                          
+            -1: 'food dist y',
+            0: 'stop',
+            1: 'up',
+            2: 'down',
+            3: 'left',
+            4: 'right'
+            }
+    
+    visualize.draw_net(config, winner, True, node_names=node_names)
 
 def start_menu():
     win_width, win_height = 1280, 720
