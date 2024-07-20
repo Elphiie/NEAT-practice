@@ -15,7 +15,7 @@ survival_threshold = 0.2
 
 [DefaultGenome]
 # node activation options
-activation_default      = random
+activation_default      = relu
 activation_mutate_rate  = 0.02
 activation_options      = relu gauss clamped sigmoid tanh
 
