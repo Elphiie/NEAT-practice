@@ -86,21 +86,32 @@ class GoL:
 
             valid = True
             if decision == 0:  # Don't move
-                valid = self.game.move_life(False, False, False, False, cum=True)
-                life.NRG -= 5
-                # we want to discourage this
+                valid = self.game.move_life(False, False, False, False, False, False, False, False, cum=True)
+                life.NRG -= 3
             elif decision == 1:  # Move up
-                valid = self.game.move_life(down=False, up=True, right=False, left=False, cum=True)
-                life.NRG -= 10
+                valid = self.game.move_life(down=False, up=True, right=False, left=False, upLeft=False, upRight=False, downLeft=False, downRight=False, cum=True)
+                life.NRG -= 3
             elif decision == 2:  # Move down
-                valid = self.game.move_life(up=False, right=False, left=False, down=True, cum=True)
-                life.NRG -= 10
+                valid = self.game.move_life(up=False, right=False, left=False, down=True, upLeft=False, upRight=False, downLeft=False, downRight=False, cum=True)
+                life.NRG -= 3
             elif decision == 3:  # Move left
-                valid = self.game.move_life(left=True, up=False, down=False, right=False, cum=True)
-                life.NRG -= 10
+                valid = self.game.move_life(left=True, up=False, down=False, right=False, upLeft=False, upRight=False, downLeft=False, downRight=False, cum=True)
+                life.NRG -= 3
             elif decision == 4:  # Move right
-                valid = self.game.move_life(up=False, down=False, right=True, left=False, cum=True)
-                life.NRG -= 10
+                valid = self.game.move_life(up=False, down=False, right=True, left=False, upLeft=False, upRight=False, downLeft=False, downRight=False, cum=True)
+                life.NRG -= 3
+            elif decision == 5:  # Move up and left
+                valid = self.game.move_life(down=False, up=False, right=False, left=False, upLeft=True, upRight=False, downLeft=False, downRight=False, cum=True)
+                life.NRG -= 3
+            elif decision == 6:  # Move up and right
+                valid = self.game.move_life(up=False, right=False, left=False, down=False, upLeft=False, upRight=True, downLeft=False, downRight=False, cum=True)
+                life.NRG -= 3
+            elif decision == 7:  # Move down and left
+                valid = self.game.move_life(left=False, up=False, down=False, right=False, upLeft=False, upRight=False, downLeft=True, downRight=False, cum=True)
+                life.NRG -= 3
+            elif decision == 8:  # Move down and right
+                valid = self.game.move_life(up=False, down=False, right=False, left=False, upLeft=False, upRight=False, downLeft=False, downRight=True, cum=True)
+                life.NRG -= 3
 
             if life.NRG <= 0:
                 valid = False
@@ -124,7 +135,7 @@ class GoL:
 
         while run:
             pygame.display.update()
-            clock.tick(8000)
+            clock.tick(6000)
             raw_time = pygame.time.get_ticks()
             fps = clock.get_fps()
             duration = time.time() - start_time
@@ -145,12 +156,20 @@ class GoL:
                 self.game.draw(draw_score=True, draw1=True, draw2=True)
 
 
-            if game_info.score_1 >= 100 or game_info.score_2 >= 100 or game_info.score_1 <= -10 or game_info.score_2 <= -10: 
+            if game_info.score_1 >= 10 or game_info.score_2 >= 10 or game_info.score_1 <= -10 or game_info.score_2 <= -10:
                 if game_info.score_1 >= game_info.score_2:
-                    genome1.fitness += 50
+                    if game_info.score_1 > 0:
+                        genome1.fitness += 50
+                    else:
+                        pass
+
                 if game_info.score_2 >= game_info.score_1:
-                    genome2.fitness += 50
-                self.calculate_fitness(duration)
+                    if game_info.score_2 > 0:
+                        genome2.fitness += 50
+                    else:
+                        pass
+                    
+                self.calculate_fitness()
                 break
                           
         return False
@@ -163,30 +182,6 @@ class GoL:
 
         for (genome, net, life, cum) in players:
             dist_food = math.dist((life.x, life.y), (self.food.x, self.food.y))
-            # near_wall_up = False
-            # near_wall_down = False
-            # near_wall_left = False
-            # near_wall_rigth = False
-
-            # # checks if our squares is close to the window border            
-            # if window_height + life.y <= window_height + 10:
-            #     near_wall_up = True
-                
-            # elif life.y + life.HEIGHT + 10 >= window_height:
-            #     near_wall_down = True
-
-            # elif window_width + life.x <= window_width + 10:
-            #     near_wall_left = True 
-
-            # elif life.x + life.WIDTH + 10 >= window_width:
-            #     near_wall_rigth = True
-
-            # else:
-            #     near_wall_up = False
-            #     near_wall_down = False
-            #     near_wall_left = False
-            #     near_wall_rigth = False
-
 
             output = net.activate(
                 (                
@@ -201,21 +196,32 @@ class GoL:
 
             valid = True
             if decision == 0:  # Don't move
-                valid = self.game.move_life(False, False, False, False, cum=cum)
+                valid = self.game.move_life(False, False, False, False, False, False, False, False, cum=cum)
                 genome.fitness -= 0.1
                 life.NRG -= 3
-                  # we want to discourage this
             elif decision == 1:  # Move up
-                valid = self.game.move_life(down=False, up=True, right=False, left=False, cum=cum)
+                valid = self.game.move_life(down=False, up=True, right=False, left=False, upLeft=False, upRight=False, downLeft=False, downRight=False, cum=cum)
                 life.NRG -= 3
             elif decision == 2:  # Move down
-                valid = self.game.move_life(up=False, right=False, left=False, down=True, cum=cum)
+                valid = self.game.move_life(up=False, right=False, left=False, down=True, upLeft=False, upRight=False, downLeft=False, downRight=False, cum=cum)
                 life.NRG -= 3
             elif decision == 3:  # Move left
-                valid = self.game.move_life(left=True, up=False, down=False, right=False, cum=cum)
+                valid = self.game.move_life(left=True, up=False, down=False, right=False, upLeft=False, upRight=False, downLeft=False, downRight=False, cum=cum)
                 life.NRG -= 3
             elif decision == 4:  # Move right
-                valid = self.game.move_life(up=False, down=False, right=True, left=False, cum=cum)
+                valid = self.game.move_life(up=False, down=False, right=True, left=False, upLeft=False, upRight=False, downLeft=False, downRight=False, cum=cum)
+                life.NRG -= 3
+            elif decision == 5:  # Move up and left
+                valid = self.game.move_life(down=False, up=False, right=False, left=False, upLeft=True, upRight=False, downLeft=False, downRight=False, cum=cum)
+                life.NRG -= 3
+            elif decision == 6:  # Move up and right
+                valid = self.game.move_life(up=False, right=False, left=False, down=False, upLeft=False, upRight=True, downLeft=False, downRight=False, cum=cum)
+                life.NRG -= 3
+            elif decision == 7:  # Move down and left
+                valid = self.game.move_life(left=False, up=False, down=False, right=False, upLeft=False, upRight=False, downLeft=True, downRight=False, cum=cum)
+                life.NRG -= 3
+            elif decision == 8:  # Move down and right
+                valid = self.game.move_life(up=False, down=False, right=False, left=False, upLeft=False, upRight=False, downLeft=False, downRight=True, cum=cum)
                 life.NRG -= 3
             if not valid:  # If the movement makes the square go off the screen punish the AI
                 genome.fitness -= 5
@@ -224,17 +230,17 @@ class GoL:
             if life.NRG <= 3: # If the square moves too much punish the AI
                 genome.fitness -= 1
 
-            if dist_food <= life.WIDTH + (self.food.RADIUS * 1.3):
+            if dist_food <= (life.WIDTH * 2) + (self.food.RADIUS * 1.2):
                 genome.fitness += 0.3
 
-            if dist_food <= life.WIDTH + self.food.RADIUS:
+            if dist_food <= (life.WIDTH * 2) + self.food.RADIUS:
                 genome.fitness += 10
 
 
 
-    def calculate_fitness(self, duration):
-        self.genome1.fitness += duration + self.score_1
-        self.genome2.fitness += duration + self.score_2
+    def calculate_fitness(self):
+        self.genome1.fitness += self.score_1
+        self.genome2.fitness += self.score_2
 
 
 
@@ -257,11 +263,15 @@ def eval_genomes(genomes, config):
                 1: 'up',
                 2: 'down',
                 3: 'left',
-                4: 'right'
+                4: 'right',
+                5: 'upLeft',
+                6: 'upRight',
+                7: 'downLeft',
+                8: 'downRight'
                 }
 
     for i, (genome_id1, genome1) in enumerate(genomes):
-        print(round(i/len(genomes) * 100), end=" ")
+        print(round(i/len(genomes) * 25), end=" ")
         genome1.fitness = 0
         for genome_id2, genome2 in genomes[min(i+1, len(genomes) - 1):]:
             genome2.fitness = 0 if genome2.fitness == None else genome2.fitness
@@ -269,23 +279,23 @@ def eval_genomes(genomes, config):
 
             force_quit = gol.train_ai(genome1, genome2, config, duration=time.time()-start_time, draw=True)
             if force_quit:
-                #saves an svg file vizualising the network for current genomes playing at the time of closing
-                # visualize.draw_net(config, genome1, True, '1', node_names=node_names)
+                # saves an svg file vizualising the network for current genomes playing at the time of closing
+                visualize.draw_net(config, genome1, True, '1', node_names=node_names)
 
-                # visualize.draw_net(config, genome2, True, '2', node_names=node_names)
+                visualize.draw_net(config, genome2, True, '2', node_names=node_names)
                
                 quit()
 
 
 
 def run_neat(config):
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-38')
-    # p = neat.Population(config)
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-60')
+    p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(1))
-    winner = p.run(eval_genomes, 15)
+    winner = p.run(eval_genomes, 150)
     with open("best.pickle", "wb") as f:
         pickle.dump(winner, f)
     

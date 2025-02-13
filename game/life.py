@@ -118,9 +118,53 @@ class Life:
             self.x += self.x_vel
         else:
             self.x_vel *= 0
+
+    def move_upLeft(self, upLeft=True):
+        if upLeft:
+            self.y_vel = self.VEL
+            self.x_vel = self.VEL
+
+            self.y -= self.y_vel           
+            self.x -= self.x_vel
+        else:
+            self.y_vel *= 0
+            self.x_vel *= 0
+
+    def move_upRight(self, upRight=True):
+        if upRight:
+            self.y_vel = self.VEL
+            self.x_vel = self.VEL
+
+            self.y -= self.y_vel           
+            self.x += self.x_vel
+        else:
+            self.y_vel *= 0
+            self.x_vel *= 0
+
+    def move_downLeft(self, upLeft=True):
+        if upLeft:
+            self.y_vel = self.VEL
+            self.x_vel = self.VEL
+
+            self.y += self.y_vel           
+            self.x -= self.x_vel
+        else:
+            self.y_vel *= 0
+            self.x_vel *= 0
+
+    def move_downRight(self, upRight=True):
+        if upRight:
+            self.y_vel = self.VEL
+            self.x_vel = self.VEL
+
+            self.y += self.y_vel           
+            self.x += self.x_vel
+        else:
+            self.y_vel *= 0
+            self.x_vel *= 0
     
-    def stop(self, up=False, down=False, left=False, right=False):
-        if not up and down and left and right:
+    def stop(self, up=False, down=False, left=False, right=False, upLeft=False, upRight=False, downLeft=False, downRight=False):
+        if not up and down and left and right and upLeft and upRight and downLeft and downRight:
             self.y_vel *= 0
             self.x_vel *= 0
         else:

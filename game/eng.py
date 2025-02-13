@@ -1,5 +1,6 @@
 import math
 import time
+import random
 from random import randint
 
 import pygame
@@ -42,6 +43,7 @@ class Game:
         
         self.food = Food(self.window_width // 2, self.window_height // 2)
         
+        self.rng_timer = random.uniform(0.2, 3.0)
         self.score_1 = 0
         self.score_2 = 0
         self.dur = 0.0
@@ -84,8 +86,8 @@ class Game:
             d = math.dist((life.x, life.y), (self.food.x, self.food.y))
 
             
-            if d <= Life.WIDTH + self.food.RADIUS:
-                self.score_1 += 1
+            if d <= (Life.WIDTH * 2) + self.food.RADIUS:
+                self.score_1 += 5
                 life.NRG += 2200
                 self.food.reset()
 
@@ -95,8 +97,8 @@ class Game:
             d = math.dist((life.x, life.y), (self.food.x, self.food.y))
 
             
-            if d <= Life.WIDTH + self.food.RADIUS:
-                self.score_2 += 1
+            if d <= (Life.WIDTH * 2) + self.food.RADIUS:
+                self.score_2 += 5
                 life.NRG += 2200
                 self.food.reset()
             
@@ -111,10 +113,17 @@ class Game:
                 self.life_2.draw(self.window)
                 self._draw_score(draw1, draw2)
         self.food.draw(self.window)
+                
+        # spawn_food = self.rng_timer - self.dur
+        # for t in spawn_food:
+        #     if t <= 0.1:
+        #         food.append(self.food.draw(self.window))
+            
+
         
 
 
-    def move_life(self, left=True, up=True, right=True, down=True, cum=True):
+    def move_life(self, left=True, up=True, right=True, down=True, upLeft=True, upRight=True, downLeft=True, downRight=True, cum=True):
         # dist_life = math.dist((self.life_1.x, self.life_1.y), (self.life_2.x, self.life_2.y))
         if cum and self.life_1.NRG > 3:
             if up:
@@ -140,10 +149,34 @@ class Game:
                     self.score_1 -= 1
                     return False
                 self.life_1.move_right(right)
+            
+            if upLeft:
+                if upLeft and self.life_1.y - Life.HEIGHT <= Life.HEIGHT and self.life_1.x - Life.WIDTH <= - Life.WIDTH:
+                    self.score_1 -= 2
+                    return False
+                self.life_1.move_upLeft(upLeft)
 
-            if not up and not down and not left and not right:
+            if upRight:
+                if upRight and self.life_1.y - Life.HEIGHT <= Life.HEIGHT and self.life_1.x + Life.WIDTH >= self.window_width:
+                    self.score_1 -= 2
+                    return False
+                self.life_1.move_upRight(upRight)
+
+            if downLeft:
+                if downLeft and self.life_1.y + Life.HEIGHT >= Life.HEIGHT and self.life_1.x - Life.WIDTH <= - Life.WIDTH:
+                    self.score_1 -= 2
+                    return False
+                self.life_1.move_downLeft(downLeft)
+
+            if downRight:
+                if downRight and self.life_1.y + Life.HEIGHT >= Life.HEIGHT and self.life_1.x + Life.WIDTH >= self.window_width:
+                    self.score_1 -= 2
+                    return False
+                self.life_1.move_downRight(downRight)                 
+
+            if not up and not down and not left and not right and not upLeft and not upRight and not downLeft and not downRight:
                 self.score_1 -= 1
-                self.life_1.stop(False, False, False, False)
+                self.life_1.stop(False, False, False, False, False, False, False, False)
 
         if self.life_1.NRG <= 3:
             self.score_1 -= 1
@@ -174,9 +207,33 @@ class Game:
                     return False
                 self.life_2.move_right(right)
 
-            if not up and not down and not left and not right:
-                self.score_2 -= 1
-                self.life_2.stop(False, False, False, False)
+            if upLeft:
+                if upLeft and self.life_2.y - Life.HEIGHT <= Life.HEIGHT and self.life_2.x - Life.WIDTH <= - Life.WIDTH:
+                    self.score_2 -= 2
+                    return False
+                self.life_2.move_upLeft(upLeft)
+
+            if upRight:
+                if upRight and self.life_2.y - Life.HEIGHT <= Life.HEIGHT and self.life_2.x + Life.WIDTH >= self.window_width:
+                    self.score_2 -= 2
+                    return False
+                self.life_2.move_upRight(upRight)
+
+            if downLeft:
+                if downLeft and self.life_2.y + Life.HEIGHT >= Life.HEIGHT and self.life_2.x - Life.WIDTH <= - Life.WIDTH:
+                    self.score_2 -= 2
+                    return False
+                self.life_2.move_downLeft(downLeft)
+
+            if downRight:
+                if downRight and self.life_2.y + Life.HEIGHT >= Life.HEIGHT and self.life_2.x + Life.WIDTH >= self.window_width:
+                    self.score_2 -= 2
+                    return False
+                self.life_2.move_downRight(downRight)                 
+
+            if not up and not down and not left and not right and not upLeft and not upRight and not downLeft and not downRight:
+                self.score_1 -= 1
+                self.life_2.stop(False, False, False, False, False, False, False, False)
 
         if self.life_2.NRG <= 3:
             self.score_2 -= 1
@@ -204,3 +261,4 @@ class Game:
         self.life_2.reset()
         self.score_1 = 0
         self.score_2 = 0
+        self.rng_timer = 0

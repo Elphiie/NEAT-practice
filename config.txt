@@ -1,7 +1,7 @@
 [NEAT]
 fitness_criterion     = max
-fitness_threshold     = 15000
-pop_size              = 100
+fitness_threshold     = 20000
+pop_size              = 25
 reset_on_extinction   = True
 
 [DefaultStagnation]
@@ -10,14 +10,14 @@ max_stagnation       = 15
 species_elitism      = 0
 
 [DefaultReproduction]
-elitism            = 2
+elitism            = 1
 survival_threshold = 0.2
 
 [DefaultGenome]
 # node activation options
 activation_default      = relu
 activation_mutate_rate  = 1.0
-activation_options      = relu
+activation_options      = relu gauss
 
 # node aggregation options
 aggregation_default     = sum
@@ -38,15 +38,15 @@ compatibility_disjoint_coefficient = 1.5
 compatibility_weight_coefficient   = 0.55
 
 # connection add/remove rates
-conn_add_prob           = 0.6
-conn_delete_prob        = 0.4
+conn_add_prob           = 0.5
+conn_delete_prob        = 0.5
 
 # connection enable options
 enabled_default         = True
 enabled_mutate_rate     = 0.01
 
 feed_forward            = True
-initial_connection      = partial_direct 0.2
+initial_connection      = partial_direct 0.5
 
 # node add/remove rates
 node_add_prob           = 0.1
@@ -55,7 +55,7 @@ node_delete_prob        = 0.1
 # network parameters
 num_hidden              = 0
 num_inputs              = 4
-num_outputs             = 5
+num_outputs             = 9
 
 # node response options
 response_init_mean      = 1.0
