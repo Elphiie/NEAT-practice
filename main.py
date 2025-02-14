@@ -156,7 +156,7 @@ class GoL:
                 self.game.draw(draw_score=True, draw1=True, draw2=True)
 
 
-            if game_info.score_1 >= 10 or game_info.score_2 >= 10 or game_info.score_1 <= -10 or game_info.score_2 <= -10:
+            if game_info.score_1 >= 15 or game_info.score_2 >= 15 or game_info.score_1 <= -10 or game_info.score_2 <= -10:
                 if game_info.score_1 >= game_info.score_2:
                     if game_info.score_1 > 0:
                         genome1.fitness += 50
@@ -271,7 +271,7 @@ def eval_genomes(genomes, config):
                 }
 
     for i, (genome_id1, genome1) in enumerate(genomes):
-        print(round(i/len(genomes) * 25), end=" ")
+        print(round(i/len(genomes) * 100), end=" ")
         genome1.fitness = 0
         for genome_id2, genome2 in genomes[min(i+1, len(genomes) - 1):]:
             genome2.fitness = 0 if genome2.fitness == None else genome2.fitness

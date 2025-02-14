@@ -127,116 +127,132 @@ class Game:
         # dist_life = math.dist((self.life_1.x, self.life_1.y), (self.life_2.x, self.life_2.y))
         if cum and self.life_1.NRG > 3:
             if up:
-                if up and self.life_1.y - Life.HEIGHT <= Life.HEIGHT:
-                    self.score_1 -= 1
+                if up and self.life_1.y - (Life.HEIGHT * 2) <= Life.HEIGHT:
+                    self.score_1 -= 0.1
                     return False
-                self.life_1.move_up(up)
+                else:
+                    self.life_1.move_up(up)
 
             if down:
-                if down and self.life_1.y + Life.HEIGHT >= self.window_height:
-                    self.score_1 -= 1
+                if down and self.life_1.y + (Life.HEIGHT * 2) >= self.window_height:
+                    self.score_1 -= 0.1
                     return False
-                self.life_1.move_down(down)
+                else:
+                    self.life_1.move_down(down)
 
             if left:
-                if left and self.life_1.x - Life.WIDTH <= - Life.WIDTH:
-                    self.score_1 -= 1
+                if left and self.life_1.x - (Life.WIDTH * 2) <= - Life.WIDTH:
+                    self.score_1 -= 0.1
                     return False
-                self.life_1.move_left(left)
+                else:
+                    self.life_1.move_left(left)
 
             if right:
-                if right and self.life_1.x + Life.WIDTH >= self.window_width:
-                    self.score_1 -= 1
+                if right and self.life_1.x + (Life.WIDTH * 2) >= self.window_width:
+                    self.score_1 -= 0.1
                     return False
-                self.life_1.move_right(right)
+                else:
+                    self.life_1.move_right(right)
             
             if upLeft:
-                if upLeft and self.life_1.y - Life.HEIGHT <= Life.HEIGHT and self.life_1.x - Life.WIDTH <= - Life.WIDTH:
-                    self.score_1 -= 2
+                if upLeft and self.life_1.y - (Life.HEIGHT * 2) <= Life.HEIGHT and self.life_1.x - (Life.WIDTH * 2) <= - Life.WIDTH:
+                    self.score_1 -= 0.2
                     return False
-                self.life_1.move_upLeft(upLeft)
+                else:
+                    self.life_1.move_upLeft(upLeft)
 
             if upRight:
-                if upRight and self.life_1.y - Life.HEIGHT <= Life.HEIGHT and self.life_1.x + Life.WIDTH >= self.window_width:
-                    self.score_1 -= 2
+                if upRight and self.life_1.y - (Life.HEIGHT * 2) <= Life.HEIGHT and self.life_1.x + (Life.WIDTH * 2) >= self.window_width:
+                    self.score_1 -= 0.2
                     return False
-                self.life_1.move_upRight(upRight)
+                else:
+                    self.life_1.move_upRight(upRight)
 
             if downLeft:
-                if downLeft and self.life_1.y + Life.HEIGHT >= Life.HEIGHT and self.life_1.x - Life.WIDTH <= - Life.WIDTH:
-                    self.score_1 -= 2
+                if downLeft and self.life_1.y + (Life.HEIGHT * 2) >= Life.HEIGHT and self.life_1.x - (Life.WIDTH * 2) <= - Life.WIDTH:
+                    self.score_1 -= 0.2
                     return False
-                self.life_1.move_downLeft(downLeft)
+                else:
+                    self.life_1.move_downLeft(downLeft)
 
             if downRight:
-                if downRight and self.life_1.y + Life.HEIGHT >= Life.HEIGHT and self.life_1.x + Life.WIDTH >= self.window_width:
-                    self.score_1 -= 2
+                if downRight and self.life_1.y + (Life.HEIGHT * 2) >= Life.HEIGHT and self.life_1.x + (Life.WIDTH * 2) >= self.window_width:
+                    self.score_1 -= 0.2
                     return False
-                self.life_1.move_downRight(downRight)                 
+                else:
+                    self.life_1.move_downRight(downRight)                 
 
             if not up and not down and not left and not right and not upLeft and not upRight and not downLeft and not downRight:
-                self.score_1 -= 1
+                self.score_1 -= 0.1
                 self.life_1.stop(False, False, False, False, False, False, False, False)
 
         if self.life_1.NRG <= 3:
-            self.score_1 -= 1
+            self.score_1 -= 0.1
             return False
 
         elif not cum and self.life_2.NRG > 3:
             if up:
-                if up and self.life_2.y - Life.HEIGHT <= Life.HEIGHT:
+                if up and self.life_2.y - (Life.HEIGHT * 2) <= Life.HEIGHT:
                     self.score_2 -= 1
                     return False
-                self.life_2.move_up(up)
+                else:
+                    self.life_2.move_up(up)
 
             if down:
-                if down and self.life_2.y + Life.HEIGHT >= self.window_height:
-                    self.score_2 -= 1
+                if down and self.life_2.y + (Life.HEIGHT * 2) >= self.window_height:
+                    self.score_2 -= 0.1
                     return False
-                self.life_2.move_down(down)
+                else:
+                    self.life_2.move_down(down)
 
             if left:
-                if left and self.life_2.x - Life.WIDTH <= - Life.WIDTH:
-                    self.score_2 -= 1
+                if left and self.life_2.x - (Life.WIDTH * 2) <= - Life.WIDTH:
+                    self.score_2 -= 0.1
                     return False
-                self.life_2.move_left(left)
+                else:
+                    self.life_2.move_left(left)
 
             if right:
-                if right and self.life_2.x + Life.WIDTH >= self.window_width:
-                    self.score_2 -= 1
+                if right and self.life_2.x + (Life.WIDTH * 2) >= self.window_width:
+                    self.score_2 -= 0.1
                     return False
-                self.life_2.move_right(right)
+                else:
+                    self.life_2.move_right(right)
 
             if upLeft:
-                if upLeft and self.life_2.y - Life.HEIGHT <= Life.HEIGHT and self.life_2.x - Life.WIDTH <= - Life.WIDTH:
-                    self.score_2 -= 2
+                if upLeft and self.life_2.y - (Life.HEIGHT * 2) <= Life.HEIGHT and self.life_2.x - (Life.WIDTH * 2) <= - Life.WIDTH:
+                    self.score_2 -= 0.2
                     return False
-                self.life_2.move_upLeft(upLeft)
+                else:
+                    self.life_2.move_upLeft(upLeft)
 
             if upRight:
-                if upRight and self.life_2.y - Life.HEIGHT <= Life.HEIGHT and self.life_2.x + Life.WIDTH >= self.window_width:
-                    self.score_2 -= 2
+                if upRight and self.life_2.y - (Life.HEIGHT * 2) <= Life.HEIGHT and self.life_2.x + (Life.WIDTH * 2) >= self.window_width:
+                    self.score_2 -= 0.2
                     return False
-                self.life_2.move_upRight(upRight)
+                else:
+                    self.life_2.move_upRight(upRight)
 
             if downLeft:
-                if downLeft and self.life_2.y + Life.HEIGHT >= Life.HEIGHT and self.life_2.x - Life.WIDTH <= - Life.WIDTH:
-                    self.score_2 -= 2
+                if downLeft and self.life_2.y + (Life.HEIGHT * 2) >= Life.HEIGHT and self.life_2.x - (Life.WIDTH * 2) <= - Life.WIDTH:
+                    self.score_2 -= 0.2
                     return False
-                self.life_2.move_downLeft(downLeft)
+                else:
+                    self.life_2.move_downLeft(downLeft)
 
             if downRight:
-                if downRight and self.life_2.y + Life.HEIGHT >= Life.HEIGHT and self.life_2.x + Life.WIDTH >= self.window_width:
-                    self.score_2 -= 2
+                if downRight and self.life_2.y + (Life.HEIGHT * 2) >= Life.HEIGHT and self.life_2.x + (Life.WIDTH * 2) >= self.window_width:
+                    self.score_2 -= 0.2
                     return False
-                self.life_2.move_downRight(downRight)                 
+                else:
+                    self.life_2.move_downRight(downRight)                 
 
             if not up and not down and not left and not right and not upLeft and not upRight and not downLeft and not downRight:
-                self.score_1 -= 1
+                self.score_1 -= 0.1
                 self.life_2.stop(False, False, False, False, False, False, False, False)
 
         if self.life_2.NRG <= 3:
-            self.score_2 -= 1
+            self.score_2 -= 0.1
             return False    
 
         # else:
